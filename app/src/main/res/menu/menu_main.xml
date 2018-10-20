@@ -1,0 +1,29 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <item
+        android:id="@+id/action_overflow"
+        android:icon="@drawable/ic_overflow"
+        android:orderInCategory="0"
+        android:title="@string/overflow"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction"
+        />
+    <group
+        android:id="@+id/overflow">
+        <item
+            android:id="@+id/action_share"
+            android:orderInCategory="200"
+            android:title="@string/action_share"
+            app:showAsAction="never"
+            />
+        <item
+            android:id="@+id/action_open_by_browser"
+            android:orderInCategory="201"
+            android:title="@string/action_open_by_browser"
+            app:showAsAction="never"
+            />
+    </group>
+</menu>

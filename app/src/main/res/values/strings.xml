@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Custom Tabs Browser</string>
+    <string name="overflow">overflow</string>
+    <string name="action_share">共有</string>
+    <string name="action_open_by_browser">ブラウザで開く</string>
+    <string name="credit">Powered by mm2d.net</string>
+</resources>

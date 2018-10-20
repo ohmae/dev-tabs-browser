@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/border_credit"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textColor="@color/text_credit"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:text="@string/credit"
+        android:shadowColor="@color/shadow_credit"
+        android:shadowDx="2.0"
+        android:shadowDy="2.0"
+        android:shadowRadius="4.0"
+        android:paddingTop="0dp"
+        android:paddingBottom="2dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        />
+</LinearLayout>
