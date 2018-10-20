@@ -87,10 +87,10 @@ class CustomTabsIntentReader(private val intent: Intent) {
             toolbarButtonParamsList = toolbarList
         } else {
             actionButtonParams = toolbarList.find { it.id == CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID }
-            if (actionButtonParams == null) {
-                toolbarButtonParamsList = toolbarList
+            toolbarButtonParamsList = if (actionButtonParams == null) {
+                toolbarList
             } else {
-                toolbarButtonParamsList = toolbarList.filter { it.id != CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID }
+                toolbarList.filter { it.id != CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID }
             }
         }
     }

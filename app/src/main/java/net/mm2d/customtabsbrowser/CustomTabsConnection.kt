@@ -14,7 +14,7 @@ import androidx.browser.customtabs.CustomTabsCallback
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
-class CustomTabsConnection(val callback: CustomTabsCallback?) {
+class CustomTabsConnection(private val callback: CustomTabsCallback?) {
     fun onNavigationEvent(event: Int) {
         callback?.onNavigationEvent(
             event,

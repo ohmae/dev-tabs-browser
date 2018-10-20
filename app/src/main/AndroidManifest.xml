@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         >
         <activity
             android:name=".IntentDispatcher"
@@ -60,6 +60,7 @@
         <service
             android:name=".CustomTabsConnectionService"
             android:exported="true"
+            tools:ignore="ExportedService"
             >
             <intent-filter>
                 <action android:name="android.support.customtabs.action.CustomTabsService"/>

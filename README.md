@@ -11,32 +11,32 @@ A sample implementation for browser that support Chrome Custom Tabs.
 ## Implementation status
 
 - Intent
-  - :heavy_check_mark: launchUrl
-  - :heavy_check_mark: setShowTitle
-  - :heavy_check_mark: setToolbarColor
-  - enableUrlBarHiding
-  - :heavy_check_mark: addDefaultShareMenuItem
-  - :heavy_check_mark: addMenuItem
-  - :heavy_check_mark: setActuionButton
-    - :heavy_check_mark: shouldTint
-  - :heavy_check_mark: addToolbarItm
-  - :heavy_check_mark: setCloseButtonIcon
-  - :heavy_check_mark: setSecondaryToolbarColor
-  - :heavy_check_mark: setStartAnimations
-  - :heavy_check_mark: setExitAnimations
-  - setSecondaryToolbarViews
-  - setInstantAppsEnabled
-  - :heavy_check_mark: setAlwaysUseBrowserUI
+  - [x] launchUrl
+  - [x] setShowTitle
+  - [x] setToolbarColor
+  - [ ] enableUrlBarHiding
+  - [x] addDefaultShareMenuItem
+  - [x] addMenuItem
+  - [x] setActuionButton
+    - [x] shouldTint
+  - [x] addToolbarItm
+  - [x] setCloseButtonIcon
+  - [x] setSecondaryToolbarColor
+  - [x] setStartAnimations
+  - [x] setExitAnimations
+  - [ ] setSecondaryToolbarViews
+  - [ ] setInstantAppsEnabled
+  - [x] setAlwaysUseBrowserUI
 - Service
-  - :heavy_check_mark: bind/unbind
-  - warmup
-  - newSession
-  - mayLaunchUrl
-  - :heavy_check_mark: onNavigationEvent
-  - extraCallback
-  - onRelationshipValidationResult
-  - onMessageChannelReady
-  - onPostMessage
+  - [x] bind/unbind
+  - [ ] warmup
+  - [ ] newSession
+  - [ ] mayLaunchUrl
+  - [x] onNavigationEvent
+  - [ ] extraCallback
+  - [ ] onRelationshipValidationResult
+  - [ ] onMessageChannelReady
+  - [ ] onPostMessage
 
 ## Author
 大前 良介 (OHMAE Ryosuke)

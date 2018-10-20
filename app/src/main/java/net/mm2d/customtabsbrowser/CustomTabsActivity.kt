@@ -130,7 +130,7 @@ class CustomTabsActivity : AppCompatActivity() {
                 it.pendingIntent?.let { pendingIntent ->
                     button.setOnClickListener { v ->
                         sendPendingIntentWithUrl(pendingIntent,
-                            Intent().also { it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
+                            Intent().apply { putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
                     }
                 }
                 toolbar2.addView(button, layoutParams)
