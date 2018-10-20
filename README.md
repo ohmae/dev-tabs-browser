@@ -5,8 +5,8 @@
 
 A sample implementation for browser that support Chrome Custom Tabs.
 
-|![](readme/screenshot1.gif)|![](readme/screenshot2.gif)|
-|-|-|
+|![](readme/screenshot1.gif)|![](readme/screenshot2.gif)|![](readme/screenshot3.gif)|
+|-|-|-|
 
 ## Implementation status
 
@@ -14,7 +14,7 @@ A sample implementation for browser that support Chrome Custom Tabs.
   - [x] launchUrl
   - [x] setShowTitle
   - [x] setToolbarColor
-  - [ ] enableUrlBarHiding
+  - [x] enableUrlBarHiding
   - [x] addDefaultShareMenuItem
   - [x] addMenuItem
   - [x] setActuionButton

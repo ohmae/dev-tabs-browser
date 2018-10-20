@@ -30,6 +30,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.math.MathUtils
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_custom_tabs.*
 
 /**
@@ -149,6 +150,10 @@ class CustomTabsActivity : AppCompatActivity() {
     @Suppress("OverridingDeprecatedMember")
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
+        if (reader.enableUrlBarHiding) {
+            (toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+        }
         web_view.settings.javaScriptEnabled = true
         web_view.settings.setSupportZoom(true)
         web_view.settings.builtInZoomControls = true
