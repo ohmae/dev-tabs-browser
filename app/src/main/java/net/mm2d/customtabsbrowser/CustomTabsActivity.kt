@@ -26,6 +26,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsCallback
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.math.MathUtils
@@ -125,6 +126,13 @@ class CustomTabsActivity : AppCompatActivity() {
             reader.toolbarButtonParamsList.forEach {
                 val button: ImageView = layoutInflater.inflate(R.layout.buttom_button, toolbar2, false) as ImageView
                 button.setImageBitmap(it.icon)
+                button.id = it.id
+                it.pendingIntent?.let { pendingIntent ->
+                    button.setOnClickListener { v ->
+                        sendPendingIntentWithUrl(pendingIntent,
+                            Intent().also { it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
+                    }
+                }
                 toolbar2.addView(button, layoutParams)
             }
         }
