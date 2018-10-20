@@ -25,6 +25,7 @@ class CustomTabsIntentReader(private val intent: Intent) {
         CustomTabsIntent.EXTRA_TITLE_VISIBILITY_STATE,
         CustomTabsIntent.NO_TITLE
     ) == CustomTabsIntent.SHOW_PAGE_TITLE
+    val enableUrlBarHiding = intent.getBooleanExtra(CustomTabsIntent.EXTRA_ENABLE_URLBAR_HIDING, false)
     val shouldShowShareMenuItem = intent.getBooleanExtra(CustomTabsIntent.EXTRA_DEFAULT_SHARE_MENU_ITEM, false)
     val toolbarColor = intent.getIntExtra(CustomTabsIntent.EXTRA_TOOLBAR_COLOR, Color.WHITE)
     val secondaryToolbarColor = intent.getIntExtra(CustomTabsIntent.EXTRA_SECONDARY_TOOLBAR_COLOR, toolbarColor)
