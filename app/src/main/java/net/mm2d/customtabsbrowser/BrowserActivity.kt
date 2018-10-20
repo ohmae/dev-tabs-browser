@@ -62,4 +62,12 @@ class BrowserActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        if (web_view.canGoBack()) {
+            web_view.goBack()
+            return
+        }
+        super.onBackPressed()
+    }
 }

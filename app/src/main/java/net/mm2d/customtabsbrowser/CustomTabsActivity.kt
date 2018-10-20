@@ -193,6 +193,14 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (web_view.canGoBack()) {
+            web_view.goBack()
+            return
+        }
+        super.onBackPressed()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         menu.findItem(R.id.action_overflow).icon.setTint(tintedColor)
