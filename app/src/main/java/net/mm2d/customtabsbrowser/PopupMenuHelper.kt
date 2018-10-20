@@ -20,11 +20,12 @@ import androidx.core.view.forEach
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
-class PopupMenuHelper(activity: Activity, toolbarId: Int) {
+class PopupMenuHelper(private val activity: Activity, toolbarId: Int) {
     private val toolbar = activity.findViewById<Toolbar>(toolbarId)
     private val adapter = ArrayAdapter<MenuItem>(activity, android.R.layout.simple_list_item_1)
     private val window = ListPopupWindow(activity)
     private val density = activity.resources.displayMetrics.density
+    private var bySelect = false
 
     init {
         window.setPromptView(activity.layoutInflater.inflate(R.layout.layout_credit, toolbar, false))
@@ -50,21 +51,31 @@ class PopupMenuHelper(activity: Activity, toolbarId: Int) {
         return view
     }
 
-    fun onCreateOptionsMenu(menu: Menu, overflowGroupId: Int) {
+    fun onPrepareOptionsMenu(menu: Menu, overflowGroupId: Int) {
+        menu.setGroupVisible(overflowGroupId, false)
+        adapter.clear()
         menu.forEach {
             if (it.groupId == overflowGroupId) {
                 adapter.add(it)
             }
         }
-        menu.removeGroup(overflowGroupId)
+        if (bySelect) {
+            bySelect = false
+            show()
+        }
     }
 
-    fun show() {
+    private fun show() {
         val anchorView = findOverflowButton(toolbar)
         window.anchorView = anchorView
         window.verticalOffset = Math.round(-anchorView.height + MARGIN * density)
         window.horizontalOffset = Math.round(-MARGIN * density)
         window.show()
+    }
+
+    fun onSelectOverflowMenu() {
+        bySelect = true
+        activity.invalidateOptionsMenu()
     }
 
     companion object {

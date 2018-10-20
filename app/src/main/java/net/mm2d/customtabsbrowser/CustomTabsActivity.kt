@@ -202,14 +202,18 @@ class CustomTabsActivity : AppCompatActivity() {
         reader.menuParamList.forEachIndexed { index, menuParams ->
             menu.add(R.id.overflow, CUSTOM_MENU_ID_START + index, CUSTOM_MENU_ORDER_START + index, menuParams.label)
         }
-        popupMenu.onCreateOptionsMenu(menu, R.id.overflow)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        popupMenu.onPrepareOptionsMenu(menu, R.id.overflow)
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val customMenuRange = CUSTOM_MENU_ID_START until CUSTOM_MENU_ID_START + reader.menuParamList.size
         when (item.itemId) {
-            R.id.action_overflow -> popupMenu.show()
+            R.id.action_overflow -> popupMenu.onSelectOverflowMenu()
             R.id.action_share -> onSelectShare()
             R.id.action_open_by_browser -> onSelectOpenByBrowser()
             android.R.id.home -> finish()
