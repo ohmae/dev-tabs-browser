@@ -16,8 +16,8 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay"
             >
 
@@ -26,9 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:titleTextAppearance="@style/toolbar.Title"
-                app:subtitleTextAppearance="@style/toolbar.Subtitle"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:subtitleTextAppearance="@style/toolbar.Subtitle"
+                app:titleTextAppearance="@style/toolbar.Title"
                 >
 
                 <ImageView
@@ -65,9 +65,9 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:elevation="8dp"
         android:orientation="horizontal"
         android:visibility="gone"
-        android:elevation="8dp"
         >
     </LinearLayout>
 </LinearLayout>
