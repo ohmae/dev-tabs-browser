@@ -27,9 +27,9 @@ import com.google.android.material.appbar.AppBarLayout
  */
 class NestedScrollingWebView
 @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
 ) : WebView(context, attrs, defStyleAttr), NestedScrollingChild {
     private val helper: NestedScrollingChildHelper = NestedScrollingChildHelper(this)
     private val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
@@ -116,11 +116,11 @@ class NestedScrollingWebView
     }
 
     override fun dispatchNestedScroll(
-        dxConsumed: Int,
-        dyConsumed: Int,
-        dxUnconsumed: Int,
-        dyUnconsumed: Int,
-        offsetInWindow: IntArray?
+            dxConsumed: Int,
+            dyConsumed: Int,
+            dxUnconsumed: Int,
+            dyUnconsumed: Int,
+            offsetInWindow: IntArray?
     ): Boolean {
         return helper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow)
     }
@@ -138,8 +138,8 @@ class NestedScrollingWebView
     }
 
     class Behavior(
-        context: Context,
-        attrs: AttributeSet?
+            context: Context,
+            attrs: AttributeSet?
     ) : AppBarLayout.ScrollingViewBehavior(context, attrs) {
         var scrollByUser = true
         private var prevBottom = 0

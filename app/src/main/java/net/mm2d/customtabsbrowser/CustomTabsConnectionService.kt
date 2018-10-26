@@ -33,10 +33,10 @@ class CustomTabsConnectionService : CustomTabsService() {
     }
 
     override fun mayLaunchUrl(
-        sessionToken: CustomTabsSessionToken?,
-        url: Uri?,
-        extras: Bundle?,
-        otherLikelyBundles: MutableList<Bundle>?
+            sessionToken: CustomTabsSessionToken?,
+            url: Uri?,
+            extras: Bundle?,
+            otherLikelyBundles: MutableList<Bundle>?
     ): Boolean {
         return true
     }
@@ -46,10 +46,10 @@ class CustomTabsConnectionService : CustomTabsService() {
     }
 
     override fun validateRelationship(
-        sessionToken: CustomTabsSessionToken?,
-        relation: Int,
-        origin: Uri?,
-        extras: Bundle?
+            sessionToken: CustomTabsSessionToken?,
+            relation: Int,
+            origin: Uri?,
+            extras: Bundle?
     ): Boolean {
         return false
     }

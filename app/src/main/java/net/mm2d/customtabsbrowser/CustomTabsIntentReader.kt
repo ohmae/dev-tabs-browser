@@ -22,8 +22,8 @@ import androidx.browser.customtabs.CustomTabsSessionToken
  */
 class CustomTabsIntentReader(private val intent: Intent) {
     val shouldShowTitle = intent.getIntExtra(
-        CustomTabsIntent.EXTRA_TITLE_VISIBILITY_STATE,
-        CustomTabsIntent.NO_TITLE
+            CustomTabsIntent.EXTRA_TITLE_VISIBILITY_STATE,
+            CustomTabsIntent.NO_TITLE
     ) == CustomTabsIntent.SHOW_PAGE_TITLE
     val enableUrlBarHiding = intent.getBooleanExtra(CustomTabsIntent.EXTRA_ENABLE_URLBAR_HIDING, false)
     val shouldShowShareMenuItem = intent.getBooleanExtra(CustomTabsIntent.EXTRA_DEFAULT_SHARE_MENU_ITEM, false)
@@ -37,12 +37,12 @@ class CustomTabsIntentReader(private val intent: Intent) {
     val enterAnimationRes: Int
     val exitAnimationRes: Int
     val menuParamList: List<MenuParams> =
-        intent.getParcelableArrayListExtra<Bundle>(CustomTabsIntent.EXTRA_MENU_ITEMS)?.map {
-            MenuParams(
-                it.getString(CustomTabsIntent.KEY_MENU_ITEM_TITLE, ""),
-                it.getParcelable(CustomTabsIntent.KEY_PENDING_INTENT)
-            )
-        } ?: emptyList()
+            intent.getParcelableArrayListExtra<Bundle>(CustomTabsIntent.EXTRA_MENU_ITEMS)?.map {
+                MenuParams(
+                        it.getString(CustomTabsIntent.KEY_MENU_ITEM_TITLE, ""),
+                        it.getParcelable(CustomTabsIntent.KEY_PENDING_INTENT)
+                )
+            } ?: emptyList()
     val actionButtonParams: ButtonParams?
     val toolbarButtonParamsList: List<ButtonParams>
 
@@ -61,11 +61,11 @@ class CustomTabsIntentReader(private val intent: Intent) {
         val actionButton = intent.getBundleExtra(CustomTabsIntent.EXTRA_ACTION_BUTTON_BUNDLE)?.let {
             val icon: Bitmap = it.getParcelable(CustomTabsIntent.KEY_ICON) ?: return@let null
             ButtonParams(
-                it.getInt(CustomTabsIntent.KEY_ID, CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID),
-                icon,
-                intent.getBooleanExtra(CustomTabsIntent.EXTRA_TINT_ACTION_BUTTON, false),
-                it.getString(CustomTabsIntent.KEY_DESCRIPTION, ""),
-                it.getParcelable(CustomTabsIntent.KEY_PENDING_INTENT)
+                    it.getInt(CustomTabsIntent.KEY_ID, CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID),
+                    icon,
+                    intent.getBooleanExtra(CustomTabsIntent.EXTRA_TINT_ACTION_BUTTON, false),
+                    it.getString(CustomTabsIntent.KEY_DESCRIPTION, ""),
+                    it.getParcelable(CustomTabsIntent.KEY_PENDING_INTENT)
             )
         }
         val idSet = mutableSetOf<Int>()
@@ -75,11 +75,11 @@ class CustomTabsIntentReader(private val intent: Intent) {
             if (idSet.contains(id)) return@mapNotNull null
             idSet.add(id)
             ButtonParams(
-                it.getInt(CustomTabsIntent.KEY_ID, CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID),
-                icon,
-                false,
-                it.getString(CustomTabsIntent.KEY_DESCRIPTION, ""),
-                it.getParcelable(CustomTabsIntent.KEY_PENDING_INTENT)
+                    it.getInt(CustomTabsIntent.KEY_ID, CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID),
+                    icon,
+                    false,
+                    it.getString(CustomTabsIntent.KEY_DESCRIPTION, ""),
+                    it.getParcelable(CustomTabsIntent.KEY_PENDING_INTENT)
             )
         } ?: emptyList()
         if (actionButton != null) {
@@ -96,21 +96,21 @@ class CustomTabsIntentReader(private val intent: Intent) {
     }
 
     class MenuParams(
-        val label: String,
-        val pendingIntent: PendingIntent?
+            val label: String,
+            val pendingIntent: PendingIntent?
     )
 
     class ButtonParams(
-        val id: Int,
-        val icon: Bitmap?,
-        val shouldTint: Boolean,
-        val description: String,
-        val pendingIntent: PendingIntent?
+            val id: Int,
+            val icon: Bitmap?,
+            val shouldTint: Boolean,
+            val description: String,
+            val pendingIntent: PendingIntent?
     )
 
     companion object {
         private val ANIMATION_BUNDLE_PREFIX =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) "android:activity." else "android:"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) "android:activity." else "android:"
         private val BUNDLE_PACKAGE_NAME = ANIMATION_BUNDLE_PREFIX + "packageName"
         private val BUNDLE_ENTER_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animEnterRes"
         private val BUNDLE_EXIT_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animExitRes"

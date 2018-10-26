@@ -17,7 +17,7 @@ import androidx.browser.customtabs.CustomTabsCallback
 class CustomTabsConnection(private val callback: CustomTabsCallback?) {
     fun onNavigationEvent(event: Int) {
         callback?.onNavigationEvent(
-            event,
-            Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
+                event,
+                Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
     }
 }

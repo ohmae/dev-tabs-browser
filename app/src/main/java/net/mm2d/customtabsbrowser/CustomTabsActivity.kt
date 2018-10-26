@@ -37,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_custom_tabs.*
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
 class CustomTabsActivity : AppCompatActivity() {
-    private lateinit var popupMenu: PopupMenuHelper
+    private lateinit var popupMenu: CustomOptionsMenuHelper
     private lateinit var reader: CustomTabsIntentReader
     private lateinit var connection: CustomTabsConnection
     private var tintedColor = Color.WHITE
@@ -56,7 +56,7 @@ class CustomTabsActivity : AppCompatActivity() {
         connection = CustomTabsConnection(reader.callback)
         darkToolbar = isDarkColor(reader.toolbarColor)
         darkToolbar2 = isDarkColor(reader.secondaryToolbarColor)
-        popupMenu = PopupMenuHelper(this, R.id.toolbar)
+        popupMenu = CustomOptionsMenuHelper(this, R.id.toolbar, R.id.action_overflow)
         customUi()
         setUpWebView()
         if (intent.dataString != null) {
@@ -95,13 +95,13 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         if (darkToolbar) {
             setForegroundColor(
-                ContextCompat.getColor(this, R.color.text_main_dark),
-                ContextCompat.getColor(this, R.color.text_sub_dark)
+                    ContextCompat.getColor(this, R.color.text_main_dark),
+                    ContextCompat.getColor(this, R.color.text_sub_dark)
             )
         } else {
             setForegroundColor(
-                ContextCompat.getColor(this, R.color.text_main),
-                ContextCompat.getColor(this, R.color.text_sub)
+                    ContextCompat.getColor(this, R.color.text_main),
+                    ContextCompat.getColor(this, R.color.text_sub)
             )
         }
         reader.closeIcon?.let {
@@ -131,7 +131,7 @@ class CustomTabsActivity : AppCompatActivity() {
                 it.pendingIntent?.let { pendingIntent ->
                     button.setOnClickListener { v ->
                         sendPendingIntentWithUrl(pendingIntent,
-                            Intent().apply { putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
+                                Intent().apply { putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
                     }
                 }
                 toolbar2.addView(button, layoutParams)
@@ -253,11 +253,11 @@ class CustomTabsActivity : AppCompatActivity() {
             return
         }
         ShareCompat.IntentBuilder.from(this)
-            .setType("text/plain")
-            .setText(url)
-            .setSubject(web_view.title)
-            .setChooserTitle(R.string.action_share)
-            .startChooser()
+                .setType("text/plain")
+                .setText(url)
+                .setSubject(web_view.title)
+                .setChooserTitle(R.string.action_share)
+                .startChooser()
     }
 
     private fun onSelectOpenByBrowser() {
@@ -273,7 +273,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
     override fun getPackageName(): String {
         if (overridePackageName) return reader.clientPackageName
-            ?: super.getPackageName()
+                ?: super.getPackageName()
         return super.getPackageName()
     }
 

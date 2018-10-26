@@ -13,6 +13,7 @@
         />
     <group
         android:id="@+id/overflow"
+        android:visible="false"
         >
         <item
             android:id="@+id/action_share"
