@@ -207,8 +207,8 @@ class CustomTabsActivity : AppCompatActivity() {
         if (!reader.shouldShowShareMenuItem) {
             menu.removeItem(R.id.action_share)
         }
-        reader.menuParamList.forEachIndexed { index, menuParams ->
-            menu.add(R.id.overflow, CUSTOM_MENU_ID_START + index, CUSTOM_MENU_ORDER_START + index, menuParams.label)
+        reader.menuParamsList.forEachIndexed { index, menuParams ->
+            menu.add(R.id.overflow, CUSTOM_MENU_ID_START + index, CUSTOM_MENU_ORDER_START + index, menuParams.title)
         }
         return true
     }
@@ -219,7 +219,7 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val customMenuRange = CUSTOM_MENU_ID_START until CUSTOM_MENU_ID_START + reader.menuParamList.size
+        val customMenuRange = CUSTOM_MENU_ID_START until CUSTOM_MENU_ID_START + reader.menuParamsList.size
         when (item.itemId) {
             R.id.action_overflow -> popupMenu.onSelectOverflowMenu()
             R.id.action_share -> onSelectShare()
@@ -233,7 +233,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
     private fun onSelectCustomMenu(index: Int) {
         try {
-            reader.menuParamList[index].pendingIntent?.send(this, 0, null)
+            reader.menuParamsList[index].pendingIntent?.send(this, 0, null)
         } catch (ignored: Throwable) {
         }
     }
