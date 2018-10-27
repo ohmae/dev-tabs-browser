@@ -20,16 +20,8 @@ class CustomTabsConnectionService : CustomTabsService() {
         return true
     }
 
-    override fun requestPostMessageChannel(sessionToken: CustomTabsSessionToken?, postMessageOrigin: Uri?): Boolean {
-        return false
-    }
-
     override fun newSession(sessionToken: CustomTabsSessionToken?): Boolean {
         return true
-    }
-
-    override fun extraCommand(commandName: String?, args: Bundle?): Bundle? {
-        return null
     }
 
     override fun mayLaunchUrl(
@@ -39,6 +31,14 @@ class CustomTabsConnectionService : CustomTabsService() {
             otherLikelyBundles: MutableList<Bundle>?
     ): Boolean {
         return true
+    }
+
+    override fun extraCommand(commandName: String?, args: Bundle?): Bundle? {
+        return null
+    }
+
+    override fun requestPostMessageChannel(sessionToken: CustomTabsSessionToken?, postMessageOrigin: Uri?): Boolean {
+        return false
     }
 
     override fun postMessage(sessionToken: CustomTabsSessionToken?, message: String?, extras: Bundle?): Int {
