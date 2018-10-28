@@ -52,6 +52,18 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <LinearLayout
+            android:id="@+id/toolbar3"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="bottom"
+            android:elevation="8dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_behavior="net.mm2d.customtabsbrowser.BottomBarBehavior"
+            >
+        </LinearLayout>
+
         <net.mm2d.customtabsbrowser.NestedScrollingWebView
             android:id="@+id/web_view"
             android:layout_width="match_parent"

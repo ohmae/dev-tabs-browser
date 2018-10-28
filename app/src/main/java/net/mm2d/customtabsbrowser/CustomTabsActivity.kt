@@ -93,6 +93,7 @@ class CustomTabsActivity : AppCompatActivity() {
             }
         })
         toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
+        toolbar3.setBackgroundColor(reader.secondaryToolbarColor)
         toolbar.setNavigationIcon(R.drawable.ic_close)
         progress_bar.progressDrawable = ContextCompat.getDrawable(this,
                 if (darkToolbar) R.drawable.browser_progress_dark
@@ -135,12 +136,12 @@ class CustomTabsActivity : AppCompatActivity() {
     private fun tryShowRemoteViews(): Boolean {
         val remoteViews = reader.remoteViews ?: return false
         val inflatedViews = try {
-            remoteViews.apply(applicationContext, toolbar2)
+            remoteViews.apply(applicationContext, toolbar3)
         } catch (e: ActionException) {
             return false
         }
-        toolbar2.visibility = View.VISIBLE
-        toolbar2.addView(inflatedViews)
+        toolbar3.visibility = View.VISIBLE
+        toolbar3.addView(inflatedViews)
         val pendingIntent = reader.remoteViewsPendingIntent ?: return true
         reader.remoteViewsClickableIDs?.filter { it >= 0 }?.forEach {
             inflatedViews.findViewById<View>(it)?.setOnClickListener { v ->
