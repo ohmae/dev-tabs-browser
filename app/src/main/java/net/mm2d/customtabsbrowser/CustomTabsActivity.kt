@@ -23,15 +23,15 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.*
 import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
-import androidx.core.math.MathUtils
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_custom_tabs.*
+import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
 
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
@@ -41,8 +41,6 @@ class CustomTabsActivity : AppCompatActivity() {
     private lateinit var reader: CustomTabsIntentReader
     private lateinit var connection: CustomTabsConnection
     private var tintedColor = Color.WHITE
-    private var darkToolbar = false
-    private var darkToolbar2 = false
     private var overridePackageName = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +52,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
         reader = CustomTabsIntentReader(intent)
         connection = CustomTabsConnection(reader.callback)
-        darkToolbar = isDarkColor(reader.toolbarColor)
-        darkToolbar2 = isDarkColor(reader.secondaryToolbarColor)
+
         popupMenu = CustomOptionsMenuHelper(this, R.id.toolbar, R.id.action_overflow)
         customUi()
         setUpWebView()
@@ -66,18 +63,8 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
-    private fun isDarkColor(color: Int): Boolean {
-        return getBrightness(color) < 128
-    }
-
-    private fun getBrightness(color: Int): Int {
-        val r = 0xff and color.ushr(16)
-        val g = 0xff and color.ushr(8)
-        val b = 0xff and color
-        return MathUtils.clamp(Math.round(r * 0.299f + g * 0.587f + b * 0.114f), 0, 255)
-    }
-
     private fun customUi() {
+        val darkToolbar = reader.toolbarColor.isDarkColor()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.statusBarColor = reader.toolbarColor
             if (!darkToolbar) {
@@ -88,63 +75,61 @@ class CustomTabsActivity : AppCompatActivity() {
         app_bar.setBackgroundColor(reader.toolbarColor)
         toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
         toolbar.setNavigationIcon(R.drawable.ic_close)
-        progress_bar.progressDrawable = if (darkToolbar) {
-            ContextCompat.getDrawable(this, R.drawable.browser_progress_dark)
-        } else {
-            ContextCompat.getDrawable(this, R.drawable.browser_progress)
-        }
+        progress_bar.progressDrawable = ContextCompat.getDrawable(this,
+                if (darkToolbar) R.drawable.browser_progress_dark
+                else R.drawable.browser_progress)
         if (darkToolbar) {
-            setForegroundColor(
-                    ContextCompat.getColor(this, R.color.text_main_dark),
-                    ContextCompat.getColor(this, R.color.text_sub_dark)
-            )
+            setForegroundColor(R.color.text_main_dark, R.color.text_sub_dark)
         } else {
-            setForegroundColor(
-                    ContextCompat.getColor(this, R.color.text_main),
-                    ContextCompat.getColor(this, R.color.text_sub)
-            )
+            setForegroundColor(R.color.text_main, R.color.text_sub)
         }
-        reader.closeIcon?.let {
-            toolbar.navigationIcon = BitmapDrawable(resources, it)
-        }
-        reader.actionButtonParams?.also {
-            action_button.visibility = View.VISIBLE
-            action_button.setImageBitmap(it.icon)
-            if (it.shouldTint) {
-                action_button.setColorFilter(tintedColor)
-            }
-            if (it.pendingIntent != null) {
-                action_button.setOnClickListener { _ ->
-                    sendPendingIntentWithUrl(it.pendingIntent, null)
-                }
-            }
-        }
-        if (reader.toolbarButtonParamsList.isNotEmpty()) {
-            toolbar2.visibility = View.VISIBLE
-            toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
-            val layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT)
-            layoutParams.weight = 1f
-            reader.toolbarButtonParamsList.forEach {
-                val button: ImageView = layoutInflater.inflate(R.layout.buttom_button, toolbar2, false) as ImageView
-                button.setImageBitmap(it.icon)
-                button.id = it.id
-                it.pendingIntent?.let { pendingIntent ->
-                    button.setOnClickListener { v ->
-                        sendPendingIntentWithUrl(pendingIntent,
-                                Intent().apply { putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
-                    }
-                }
-                toolbar2.addView(button, layoutParams)
-            }
-        }
+        reader.closeIcon?.let { toolbar.navigationIcon = BitmapDrawable(resources, it) }
+        reader.actionButtonParams?.let { applyActionButtonParams(it) }
+        applyToolbarButtonParamsList(reader.toolbarButtonParamsList)
     }
 
-    private fun setForegroundColor(mainColor: Int, subColor: Int) {
+    private fun setForegroundColor(mainColorId: Int, subColorId: Int) {
+        val mainColor = ContextCompat.getColor(this, mainColorId)
+        val subColor = ContextCompat.getColor(this, subColorId)
         toolbar.setTitleTextColor(mainColor)
         toolbar.setSubtitleTextColor(subColor)
         toolbar.overflowIcon?.setTint(mainColor)
         toolbar.navigationIcon?.setTint(mainColor)
         tintedColor = mainColor
+    }
+
+    private fun applyActionButtonParams(params: ButtonParams) {
+        action_button.visibility = View.VISIBLE
+        action_button.setImageBitmap(params.icon)
+        if (params.shouldTint) {
+            action_button.setColorFilter(tintedColor)
+        }
+        if (params.pendingIntent != null) {
+            action_button.setOnClickListener { _ ->
+                sendPendingIntentWithUrl(params.pendingIntent, null)
+            }
+        }
+    }
+
+    private fun applyToolbarButtonParamsList(list : List<ButtonParams>) {
+        if (list.isEmpty()) {
+            return
+        }
+        toolbar2.visibility = View.VISIBLE
+        val layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT)
+                .also { it.weight = 1f }
+        list.forEach {
+            val button = layoutInflater.inflate(R.layout.buttom_button, toolbar2, false) as ImageView
+            button.id = it.id
+            button.setImageBitmap(it.icon)
+            it.pendingIntent?.let { pendingIntent ->
+                button.setOnClickListener { v ->
+                    sendPendingIntentWithUrl(pendingIntent,
+                            Intent().apply { putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
+                }
+            }
+            toolbar2.addView(button, layoutParams)
+        }
     }
 
     @Suppress("OverridingDeprecatedMember")
