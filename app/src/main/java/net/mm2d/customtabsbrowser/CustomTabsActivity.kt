@@ -24,6 +24,7 @@ import android.view.View
 import android.webkit.*
 import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
+import android.widget.RemoteViews.ActionException
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsIntent
@@ -103,7 +104,9 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         reader.closeIcon?.let { toolbar.navigationIcon = BitmapDrawable(resources, it) }
         reader.actionButtonParams?.let { applyActionButtonParams(it) }
-        applyToolbarButtonParamsList(reader.toolbarButtonParamsList)
+        if (!tryShowRemoteViews()) {
+            applyToolbarButtonParamsList(reader.toolbarButtonParamsList)
+        }
     }
 
     private fun setForegroundColor(mainColorId: Int, subColorId: Int) {
@@ -127,6 +130,24 @@ class CustomTabsActivity : AppCompatActivity() {
                 sendPendingIntentWithUrl(params.pendingIntent, null)
             }
         }
+    }
+
+    private fun tryShowRemoteViews(): Boolean {
+        val remoteViews = reader.remoteViews ?: return false
+        val inflatedViews = try {
+            remoteViews.apply(applicationContext, toolbar2)
+        } catch (e: ActionException) {
+            return false
+        }
+        toolbar2.visibility = View.VISIBLE
+        toolbar2.addView(inflatedViews)
+        val pendingIntent = reader.remoteViewsPendingIntent ?: return true
+        reader.remoteViewsClickableIDs?.filter { it >= 0 }?.forEach {
+            inflatedViews.findViewById<View>(it)?.setOnClickListener { v ->
+                sendPendingIntentWithUrl(pendingIntent, Intent().also { it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
+            }
+        }
+        return true
     }
 
     private fun applyToolbarButtonParamsList(list: List<ButtonParams>) {

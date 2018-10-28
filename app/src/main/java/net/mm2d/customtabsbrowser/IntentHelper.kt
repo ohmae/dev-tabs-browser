@@ -30,6 +30,14 @@ internal fun Intent.getIntExtraSafely(key: String, default: Int = 0): Int {
     }
 }
 
+internal fun Intent.getIntArrayExtraSafely(key: String): IntArray? {
+    return try {
+        getIntArrayExtra(key)
+    } catch (e: Exception) {
+        null
+    }
+}
+
 internal fun Intent.getBundleExtraSafely(key: String): Bundle? {
     return try {
         getBundleExtra(key)

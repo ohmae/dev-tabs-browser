@@ -13,6 +13,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.widget.RemoteViews
 import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsIntent.*
 import androidx.browser.customtabs.CustomTabsSessionToken
@@ -39,6 +40,9 @@ class CustomTabsIntentReader(intent: Intent) {
     val menuParamsList: List<MenuParams> = makeMenuParamsList(intent)
     val actionButtonParams: ButtonParams?
     val toolbarButtonParamsList: List<ButtonParams>
+    val remoteViews: RemoteViews? = intent.getParcelableExtraSafely(EXTRA_REMOTEVIEWS)
+    val remoteViewsClickableIDs: IntArray? = intent.getIntArrayExtraSafely(EXTRA_REMOTEVIEWS_VIEW_IDS)
+    val remoteViewsPendingIntent: PendingIntent? = intent.getParcelableExtraSafely(EXTRA_REMOTEVIEWS_PENDINGINTENT)
 
     init {
         val animationBundle = intent.getBundleExtraSafely(EXTRA_EXIT_ANIMATION_BUNDLE)
