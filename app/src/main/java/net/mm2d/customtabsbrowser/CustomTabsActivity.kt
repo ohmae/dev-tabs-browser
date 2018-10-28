@@ -30,6 +30,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import kotlinx.android.synthetic.main.activity_custom_tabs.*
 import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
 
@@ -83,6 +84,13 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         toolbar.setBackgroundColor(reader.toolbarColor)
         app_bar.setBackgroundColor(reader.toolbarColor)
+        app_bar.addOnOffsetChangedListener(OnOffsetChangedListener { _, offset ->
+            if (offset == 0) {
+                connection.onBottomBarScrollStateChanged(false)
+            } else if (offset == -toolbar.height) {
+                connection.onBottomBarScrollStateChanged(true)
+            }
+        })
         toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
         toolbar.setNavigationIcon(R.drawable.ic_close)
         progress_bar.progressDrawable = ContextCompat.getDrawable(this,
@@ -264,6 +272,7 @@ class CustomTabsActivity : AppCompatActivity() {
         } catch (e: ActivityNotFoundException) {
         }
         finish()
+        connection.onOpenInBrowser()
     }
 
     override fun getPackageName(): String {

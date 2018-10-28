@@ -33,13 +33,17 @@ A sample implementation for browser that support Chrome Custom Tabs.
   - [ ] newSession
   - [ ] mayLaunchUrl
   - [x] onNavigationEvent
-  - [ ] extraCallback
+  - [x] extraCallback
+    - [x] onBottomBarScrollStateChanged
+    - [x] onOpenInBrowser
   - [ ] onRelationshipValidationResult
   - [ ] onMessageChannelReady
   - [ ] onPostMessage
 - Callback
   - [x] onNavigationEvent
-  - [ ] extraCallback
+  - [x] extraCallback
+    - [x] onBottomBarScrollStateChanged
+    - [x] onOpenInBrowser
   - [ ] onMessageChannelReady
   - [ ] onPostMessage
   - [ ] onRelationshipValidationResult
