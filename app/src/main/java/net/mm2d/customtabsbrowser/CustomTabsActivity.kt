@@ -63,6 +63,16 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        connection.onNavigationEvent(CustomTabsCallback.TAB_SHOWN)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        connection.onNavigationEvent(CustomTabsCallback.TAB_HIDDEN)
+    }
+
     private fun customUi() {
         val darkToolbar = reader.toolbarColor.isDarkColor()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -111,7 +121,7 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
-    private fun applyToolbarButtonParamsList(list : List<ButtonParams>) {
+    private fun applyToolbarButtonParamsList(list: List<ButtonParams>) {
         if (list.isEmpty()) {
             return
         }
