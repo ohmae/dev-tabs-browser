@@ -37,6 +37,12 @@ A sample implementation for browser that support Chrome Custom Tabs.
   - [ ] onRelationshipValidationResult
   - [ ] onMessageChannelReady
   - [ ] onPostMessage
+- Callback
+  - [x] onNavigationEvent
+  - [ ] extraCallback
+  - [ ] onMessageChannelReady
+  - [ ] onPostMessage
+  - [ ] onRelationshipValidationResult
 
 ## Author
 大前 良介 (OHMAE Ryosuke)
