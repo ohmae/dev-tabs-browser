@@ -7,19 +7,19 @@
 
 package net.mm2d.customtabsbrowser
 
-import androidx.core.math.MathUtils
+import android.graphics.Color
 
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
 
 internal fun Int.isDarkColor(): Boolean {
-    return getBrightness() < 128
+    return getBrightness() < 0.5f
 }
 
-internal fun Int.getBrightness(): Int {
-    val r = 0xff and (this ushr 16)
-    val g = 0xff and (this ushr 8)
-    val b = 0xff and this
-    return MathUtils.clamp(Math.round(r * 0.299f + g * 0.587f + b * 0.114f), 0, 255)
+internal fun Int.getBrightness(): Float {
+    val r = Color.red(this) / 255f
+    val g = Color.green(this) / 255f
+    val b = Color.blue(this) / 255f
+    return r * 0.2126f + g * 0.7152f + b * 0.0722f
 }
