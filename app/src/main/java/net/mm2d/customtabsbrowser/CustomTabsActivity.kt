@@ -85,6 +85,14 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         toolbar.setBackgroundColor(reader.toolbarColor)
         app_bar.setBackgroundColor(reader.toolbarColor)
+        progress_bar.progressDrawable = ContextCompat.getDrawable(this,
+                if (darkToolbar) R.drawable.browser_progress_dark
+                else R.drawable.browser_progress)
+        if (darkToolbar) {
+            setForegroundColor(R.color.text_main_dark, R.color.text_sub_dark)
+        } else {
+            setForegroundColor(R.color.text_main, R.color.text_sub)
+        }
         app_bar.addOnOffsetChangedListener(OnOffsetChangedListener { _, offset ->
             if (offset == 0) {
                 connection.onBottomBarScrollStateChanged(false)
@@ -95,14 +103,6 @@ class CustomTabsActivity : AppCompatActivity() {
         toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
         toolbar3.setBackgroundColor(reader.secondaryToolbarColor)
         toolbar.setNavigationIcon(R.drawable.ic_close)
-        progress_bar.progressDrawable = ContextCompat.getDrawable(this,
-                if (darkToolbar) R.drawable.browser_progress_dark
-                else R.drawable.browser_progress)
-        if (darkToolbar) {
-            setForegroundColor(R.color.text_main_dark, R.color.text_sub_dark)
-        } else {
-            setForegroundColor(R.color.text_main, R.color.text_sub)
-        }
         reader.closeIcon?.let { toolbar.navigationIcon = BitmapDrawable(resources, it) }
         reader.actionButtonParams?.let { applyActionButtonParams(it) }
         if (!tryShowRemoteViews()) {
