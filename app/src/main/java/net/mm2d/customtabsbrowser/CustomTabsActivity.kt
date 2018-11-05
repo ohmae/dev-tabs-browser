@@ -79,8 +79,11 @@ class CustomTabsActivity : AppCompatActivity() {
         val darkToolbar = reader.toolbarColor.isDarkColor()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.statusBarColor = reader.toolbarColor
-            if (!darkToolbar) {
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            val decorView = window.decorView
+            decorView.systemUiVisibility = if (darkToolbar) {
+                decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            } else {
+                decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
         toolbar.setBackgroundColor(reader.toolbarColor)
