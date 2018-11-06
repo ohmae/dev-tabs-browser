@@ -18,15 +18,23 @@ import com.google.android.material.appbar.AppBarLayout
  */
 @Suppress("unused")
 class BottomBarBehavior(
-        context: Context,
-        attrs: AttributeSet?
+    context: Context,
+    attrs: AttributeSet?
 ) : CoordinatorLayout.Behavior<View>(context, attrs) {
-    override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
+    override fun onDependentViewChanged(
+        parent: CoordinatorLayout,
+        child: View,
+        dependency: View
+    ): Boolean {
         child.translationY = (dependency.height - dependency.bottom).toFloat()
         return false
     }
 
-    override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
+    override fun layoutDependsOn(
+        parent: CoordinatorLayout,
+        child: View,
+        dependency: View
+    ): Boolean {
         return dependency is AppBarLayout
     }
 }

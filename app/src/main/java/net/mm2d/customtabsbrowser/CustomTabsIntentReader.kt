@@ -22,11 +22,14 @@ import androidx.browser.customtabs.CustomTabsSessionToken
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
 class CustomTabsIntentReader(intent: Intent) {
-    val shouldShowTitle: Boolean = intent.getIntExtraSafely(EXTRA_TITLE_VISIBILITY_STATE, NO_TITLE) == SHOW_PAGE_TITLE
+    val shouldShowTitle: Boolean =
+        intent.getIntExtraSafely(EXTRA_TITLE_VISIBILITY_STATE, NO_TITLE) == SHOW_PAGE_TITLE
     val enableUrlBarHiding: Boolean = intent.getBooleanExtraSafely(EXTRA_ENABLE_URLBAR_HIDING)
-    val shouldShowShareMenuItem: Boolean = intent.getBooleanExtraSafely(EXTRA_DEFAULT_SHARE_MENU_ITEM)
+    val shouldShowShareMenuItem: Boolean =
+        intent.getBooleanExtraSafely(EXTRA_DEFAULT_SHARE_MENU_ITEM)
     val toolbarColor: Int = intent.getIntExtraSafely(EXTRA_TOOLBAR_COLOR, Color.WHITE)
-    val secondaryToolbarColor: Int = intent.getIntExtraSafely(EXTRA_SECONDARY_TOOLBAR_COLOR, toolbarColor)
+    val secondaryToolbarColor: Int =
+        intent.getIntExtraSafely(EXTRA_SECONDARY_TOOLBAR_COLOR, toolbarColor)
     val closeIcon: Bitmap? = intent.getParcelableExtraSafely(EXTRA_CLOSE_BUTTON_ICON)
     val callback: CustomTabsCallback? = try {
         CustomTabsSessionToken.getSessionTokenFromIntent(intent)?.callback
@@ -41,8 +44,10 @@ class CustomTabsIntentReader(intent: Intent) {
     val actionButtonParams: ButtonParams?
     val toolbarButtonParamsList: List<ButtonParams>
     val remoteViews: RemoteViews? = intent.getParcelableExtraSafely(EXTRA_REMOTEVIEWS)
-    val remoteViewsClickableIDs: IntArray? = intent.getIntArrayExtraSafely(EXTRA_REMOTEVIEWS_VIEW_IDS)
-    val remoteViewsPendingIntent: PendingIntent? = intent.getParcelableExtraSafely(EXTRA_REMOTEVIEWS_PENDINGINTENT)
+    val remoteViewsClickableIDs: IntArray? =
+        intent.getIntArrayExtraSafely(EXTRA_REMOTEVIEWS_VIEW_IDS)
+    val remoteViewsPendingIntent: PendingIntent? =
+        intent.getParcelableExtraSafely(EXTRA_REMOTEVIEWS_PENDINGINTENT)
 
     init {
         val animationBundle = intent.getBundleExtraSafely(EXTRA_EXIT_ANIMATION_BUNDLE)
@@ -66,28 +71,28 @@ class CustomTabsIntentReader(intent: Intent) {
     }
 
     class MenuParams(
-            val title: String,
-            val pendingIntent: PendingIntent?
+        val title: String,
+        val pendingIntent: PendingIntent?
     )
 
     class ButtonParams(
-            val id: Int,
-            val icon: Bitmap?,
-            val shouldTint: Boolean,
-            val description: String,
-            val pendingIntent: PendingIntent?
+        val id: Int,
+        val icon: Bitmap?,
+        val shouldTint: Boolean,
+        val description: String,
+        val pendingIntent: PendingIntent?
     )
 
     companion object {
         private val ANIMATION_BUNDLE_PREFIX =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) "android:activity." else "android:"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) "android:activity." else "android:"
         private val BUNDLE_PACKAGE_NAME = ANIMATION_BUNDLE_PREFIX + "packageName"
         private val BUNDLE_ENTER_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animEnterRes"
         private val BUNDLE_EXIT_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animExitRes"
 
         private fun makeMenuParamsList(intent: Intent): List<MenuParams> {
             return intent.getParcelableArrayListExtraSafely<Bundle>(EXTRA_MENU_ITEMS)
-                    ?.mapNotNull { makeMenuParams(it) } ?: emptyList()
+                ?.mapNotNull { makeMenuParams(it) } ?: emptyList()
         }
 
         private fun makeMenuParams(bundle: Bundle): MenuParams? {
@@ -104,8 +109,12 @@ class CustomTabsIntentReader(intent: Intent) {
             }
         }
 
-        private fun makeToolbarButtonParamsList(intent: Intent, existActionButton: Boolean): List<ButtonParams> {
-            val idSet = if (existActionButton) mutableSetOf(TOOLBAR_ACTION_BUTTON_ID) else mutableSetOf()
+        private fun makeToolbarButtonParamsList(
+            intent: Intent,
+            existActionButton: Boolean
+        ): List<ButtonParams> {
+            val idSet =
+                if (existActionButton) mutableSetOf(TOOLBAR_ACTION_BUTTON_ID) else mutableSetOf()
             return intent.getParcelableArrayListExtraSafely<Bundle>(EXTRA_TOOLBAR_ITEMS)?.mapNotNull {
                 val id = it.getIntSafely(KEY_ID, TOOLBAR_ACTION_BUTTON_ID)
                 if (idSet.contains(id)) return@mapNotNull null
@@ -117,11 +126,11 @@ class CustomTabsIntentReader(intent: Intent) {
         private fun makeButtonParams(id: Int, shouldTint: Boolean, bundle: Bundle): ButtonParams? {
             val icon: Bitmap = bundle.getParcelableSafely(KEY_ICON) ?: return null
             return ButtonParams(
-                    id,
-                    icon,
-                    shouldTint,
-                    bundle.getStringSafelyNonNull(KEY_DESCRIPTION),
-                    bundle.getParcelableSafely(KEY_PENDING_INTENT)
+                id,
+                icon,
+                shouldTint,
+                bundle.getStringSafelyNonNull(KEY_DESCRIPTION),
+                bundle.getParcelableSafely(KEY_PENDING_INTENT)
             )
         }
     }

@@ -88,9 +88,11 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         toolbar.setBackgroundColor(reader.toolbarColor)
         app_bar.setBackgroundColor(reader.toolbarColor)
-        progress_bar.progressDrawable = ContextCompat.getDrawable(this,
-                if (darkToolbar) R.drawable.browser_progress_dark
-                else R.drawable.browser_progress)
+        progress_bar.progressDrawable = ContextCompat.getDrawable(
+            this,
+            if (darkToolbar) R.drawable.browser_progress_dark
+            else R.drawable.browser_progress
+        )
         if (darkToolbar) {
             setForegroundColor(R.color.text_main_dark, R.color.text_sub_dark)
         } else {
@@ -148,7 +150,14 @@ class CustomTabsActivity : AppCompatActivity() {
         val pendingIntent = reader.remoteViewsPendingIntent ?: return true
         reader.remoteViewsClickableIDs?.filter { it >= 0 }?.forEach {
             inflatedViews.findViewById<View>(it)?.setOnClickListener { v ->
-                sendPendingIntentWithUrl(pendingIntent, Intent().also { it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
+                sendPendingIntentWithUrl(
+                    pendingIntent,
+                    Intent().also {
+                        it.putExtra(
+                            CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID,
+                            v.id
+                        )
+                    })
             }
         }
         return true
@@ -160,15 +169,21 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         toolbar2.visibility = View.VISIBLE
         val layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT)
-                .also { it.weight = 1f }
+            .also { it.weight = 1f }
         list.forEach {
-            val button = layoutInflater.inflate(R.layout.buttom_button, toolbar2, false) as ImageView
+            val button =
+                layoutInflater.inflate(R.layout.buttom_button, toolbar2, false) as ImageView
             button.id = it.id
             button.setImageBitmap(it.icon)
             it.pendingIntent?.let { pendingIntent ->
                 button.setOnClickListener { v ->
                     sendPendingIntentWithUrl(pendingIntent,
-                            Intent().apply { putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, v.id) })
+                        Intent().apply {
+                            putExtra(
+                                CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID,
+                                v.id
+                            )
+                        })
                 }
             }
             toolbar2.addView(button, layoutParams)
@@ -180,7 +195,8 @@ class CustomTabsActivity : AppCompatActivity() {
     private fun setUpWebView() {
         if (reader.enableUrlBarHiding) {
             (toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
         }
         web_view.settings.javaScriptEnabled = true
         web_view.settings.setSupportZoom(true)
@@ -210,11 +226,20 @@ class CustomTabsActivity : AppCompatActivity() {
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
             }
 
-            override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
+            override fun onReceivedError(
+                view: WebView?,
+                errorCode: Int,
+                description: String?,
+                failingUrl: String?
+            ) {
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
             }
 
-            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+            override fun onReceivedSslError(
+                view: WebView?,
+                handler: SslErrorHandler?,
+                error: SslError?
+            ) {
                 handler?.cancel()
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
             }
@@ -236,7 +261,12 @@ class CustomTabsActivity : AppCompatActivity() {
             menu.removeItem(R.id.action_share)
         }
         reader.menuParamsList.forEachIndexed { index, menuParams ->
-            menu.add(R.id.overflow, CUSTOM_MENU_ID_START + index, CUSTOM_MENU_ORDER_START + index, menuParams.title)
+            menu.add(
+                R.id.overflow,
+                CUSTOM_MENU_ID_START + index,
+                CUSTOM_MENU_ORDER_START + index,
+                menuParams.title
+            )
         }
         return true
     }
@@ -247,7 +277,8 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val customMenuRange = CUSTOM_MENU_ID_START until CUSTOM_MENU_ID_START + reader.menuParamsList.size
+        val customMenuRange =
+            CUSTOM_MENU_ID_START until CUSTOM_MENU_ID_START + reader.menuParamsList.size
         when (item.itemId) {
             R.id.action_overflow -> popupMenu.onSelectOverflowMenu()
             R.id.action_share -> onSelectShare()
@@ -281,11 +312,11 @@ class CustomTabsActivity : AppCompatActivity() {
             return
         }
         ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setText(url)
-                .setSubject(web_view.title)
-                .setChooserTitle(R.string.action_share)
-                .startChooser()
+            .setType("text/plain")
+            .setText(url)
+            .setSubject(web_view.title)
+            .setChooserTitle(R.string.action_share)
+            .startChooser()
     }
 
     private fun onSelectOpenByBrowser() {
@@ -302,7 +333,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
     override fun getPackageName(): String {
         if (overridePackageName) return reader.clientPackageName
-                ?: super.getPackageName()
+            ?: super.getPackageName()
         return super.getPackageName()
     }
 

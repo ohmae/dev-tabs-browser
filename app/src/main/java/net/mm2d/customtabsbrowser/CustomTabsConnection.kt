@@ -18,18 +18,22 @@ class CustomTabsConnection(private val callback: CustomTabsCallback?) {
     private var hidden: Boolean = false
     fun onNavigationEvent(event: Int) {
         callback?.onNavigationEvent(
-                event,
-                Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
+            event,
+            Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
     }
 
     fun onBottomBarScrollStateChanged(hidden: Boolean) {
         if (this.hidden == hidden) return
         this.hidden = hidden
-        callback?.extraCallback(BOTTOM_BAR_SCROLL_STATE_CALLBACK, Bundle().also { it.putBoolean("hidden", hidden) })
+        callback?.extraCallback(
+            BOTTOM_BAR_SCROLL_STATE_CALLBACK,
+            Bundle().also { it.putBoolean("hidden", hidden) })
     }
 
     fun onOpenInBrowser() {
-        callback?.extraCallback(OPEN_IN_BROWSER_CALLBACK, Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
+        callback?.extraCallback(
+            OPEN_IN_BROWSER_CALLBACK,
+            Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
     }
 
     companion object {

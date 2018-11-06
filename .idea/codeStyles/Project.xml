@@ -62,6 +62,7 @@
     </JavaCodeStyleSettings>
     <JetCodeStyleSettings>
       <option name="IMPORT_NESTED_CLASSES" value="true" />
+      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </JetCodeStyleSettings>
     <Objective-C-extensions>
       <file>
@@ -248,6 +249,9 @@
           </section>
         </rules>
       </arrangement>
+    </codeStyleSettings>
+    <codeStyleSettings language="kotlin">
+      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </codeStyleSettings>
   </code_scheme>
 </component>
