@@ -26,6 +26,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RemoteViews.ActionException
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
@@ -107,7 +108,10 @@ class CustomTabsActivity : AppCompatActivity() {
         })
         toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
         toolbar3.setBackgroundColor(reader.secondaryToolbarColor)
-        toolbar.setNavigationIcon(R.drawable.ic_close)
+        AppCompatResources.getDrawable(this, R.drawable.ic_close)?.let {
+            it.setTint(if (darkToolbar) Color.WHITE else Color.BLACK)
+            toolbar.navigationIcon = it
+        }
         reader.closeIcon?.let { toolbar.navigationIcon = BitmapDrawable(resources, it) }
         reader.actionButtonParams?.let { applyActionButtonParams(it) }
         if (!tryShowRemoteViews()) {
@@ -266,7 +270,7 @@ class CustomTabsActivity : AppCompatActivity() {
                 CUSTOM_MENU_ID_START + index,
                 CUSTOM_MENU_ORDER_START + index,
                 menuParams.title
-            )
+            ).isVisible = false
         }
         return true
     }
