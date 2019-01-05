@@ -136,8 +136,8 @@ class CustomTabsActivity : AppCompatActivity() {
             action_button.setColorFilter(tintedColor)
         }
         if (params.pendingIntent != null) {
-            action_button.setOnClickListener { _ ->
-                sendPendingIntentWithUrl(params.pendingIntent, null)
+            action_button.setOnClickListener {
+                sendPendingIntentWithUrl(params.pendingIntent)
             }
         }
     }
@@ -154,14 +154,7 @@ class CustomTabsActivity : AppCompatActivity() {
         val pendingIntent = reader.remoteViewsPendingIntent ?: return true
         reader.remoteViewsClickableIDs?.filter { it >= 0 }?.forEach {
             inflatedViews.findViewById<View>(it)?.setOnClickListener { v ->
-                sendPendingIntentWithUrl(
-                    pendingIntent,
-                    Intent().also {
-                        it.putExtra(
-                            CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID,
-                            v.id
-                        )
-                    })
+                sendPendingIntentOnClick(pendingIntent, v.id)
             }
         }
         return true
@@ -181,13 +174,7 @@ class CustomTabsActivity : AppCompatActivity() {
             button.setImageBitmap(it.icon)
             it.pendingIntent?.let { pendingIntent ->
                 button.setOnClickListener { v ->
-                    sendPendingIntentWithUrl(pendingIntent,
-                        Intent().apply {
-                            putExtra(
-                                CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID,
-                                v.id
-                            )
-                        })
+                    sendPendingIntentOnClick(pendingIntent, v.id)
                 }
             }
             toolbar2.addView(button, layoutParams)
@@ -301,9 +288,21 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendPendingIntentWithUrl(pendingIntent: PendingIntent, extraIntent: Intent?) {
-        val addedIntent = if (extraIntent == null) Intent() else Intent(extraIntent)
-        addedIntent.data = Uri.parse(web_view.url)
+    private fun sendPendingIntentOnClick(pendingIntent: PendingIntent, id: Int) {
+        val addedIntent = Intent().also {
+            it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, id)
+            it.data = Uri.parse(web_view.url)
+        }
+        try {
+            pendingIntent.send(this, 0, addedIntent)
+        } catch (ignored: Throwable) {
+        }
+    }
+
+    private fun sendPendingIntentWithUrl(pendingIntent: PendingIntent) {
+        val addedIntent = Intent().also {
+            it.data = Uri.parse(web_view.url)
+        }
         try {
             pendingIntent.send(this, 0, addedIntent)
         } catch (ignored: Throwable) {
