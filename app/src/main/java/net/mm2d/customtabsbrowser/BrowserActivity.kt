@@ -8,9 +8,14 @@
 package net.mm2d.customtabsbrowser
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -21,28 +26,56 @@ import kotlinx.android.synthetic.main.activity_browser.*
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
 class BrowserActivity : AppCompatActivity() {
+    private lateinit var webView: WebView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_browser)
         supportActionBar?.title = ""
-        setUpWebView()
-        if (intent.dataString != null) {
-            web_view.loadUrl(intent.dataString)
+        webView = if (intent.getBooleanExtra(EXTRA_FROM_CUSTOM_TABS, false)) {
+            WebViewHolder.getBrowserWebView(this)
         } else {
-            web_view.loadUrl("https://m.yahoo.co.jp/")
+            WebViewHolder.createWebView(this)
         }
+        val url = intent.dataString ?: "https://search.yahoo.co.jp/"
+        if (webView.url != url) {
+            webView.loadUrl(url)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        intent.dataString?.let {
+            if (webView.url != it) {
+                webView.loadUrl(it)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (webView.parent as? ViewGroup)?.removeView(webView)
+        web_view_container.addView(webView)
+        setUpWebView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        webView.webViewClient = WebViewClient()
+        webView.webChromeClient = WebChromeClient()
+        (webView.parent as? ViewGroup)?.removeView(webView)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
-        web_view.settings.javaScriptEnabled = true
-        web_view.settings.setSupportZoom(true)
-        web_view.settings.builtInZoomControls = true
-        web_view.settings.displayZoomControls = false
-        web_view.settings.useWideViewPort = true
-        web_view.settings.loadWithOverviewMode = true
-        web_view.settings.domStorageEnabled = true
-        web_view.webChromeClient = object : WebChromeClient() {
+        webView.url?.let {
+            if (it.isNotEmpty()) supportActionBar?.subtitle = it
+        }
+        webView.title?.let {
+            if (it.isNotEmpty()) supportActionBar?.title = it
+        }
+        webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 progress_bar.progress = newProgress
             }
@@ -51,7 +84,7 @@ class BrowserActivity : AppCompatActivity() {
                 supportActionBar?.title = title
             }
         }
-        web_view.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 progress_bar.progress = 0
                 progress_bar.visibility = View.VISIBLE
@@ -65,10 +98,25 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (web_view.canGoBack()) {
-            web_view.goBack()
+        if (webView.canGoBack()) {
+            webView.goBack()
             return
         }
         super.onBackPressed()
+    }
+
+    companion object {
+        private const val EXTRA_FROM_CUSTOM_TABS = "EXTRA_FROM_CUSTOM_TABS"
+        fun startFromCustomTabs(context: Context, webView: WebView) {
+            WebViewHolder.setBrowserWebView(webView)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webView.url))
+            intent.setClass(context, BrowserActivity::class.java)
+            intent.addCategory(Intent.CATEGORY_BROWSABLE)
+            intent.putExtra(EXTRA_FROM_CUSTOM_TABS, true)
+            try {
+                context.startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.browser.customtabs.CustomTabsService
 import java.io.File
+import java.lang.ref.SoftReference
 
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
@@ -24,12 +25,29 @@ import java.io.File
 object WebViewHolder {
     private var webView: WebView? = null
     private var secondaryWebView: WebView? = null
+    private var reference: SoftReference<WebView>? = null
 
     fun getWebView(context: Context): WebView {
-        return ensureWebView(context)
+        try {
+            return ensureWebView(context)
+        } finally {
+            webView = null
+        }
     }
 
-    private fun ensureWebView(context: Context) : WebView {
+    fun setBrowserWebView(view: WebView) {
+        reference = SoftReference(view)
+    }
+
+    fun getBrowserWebView(context: Context): WebView {
+        try {
+            return reference?.get() ?: createWebView(context)
+        } finally {
+            reference = null
+        }
+    }
+
+    private fun ensureWebView(context: Context): WebView {
         webView?.let { return it }
         return createWebView(context).also {
             webView = it
@@ -37,7 +55,7 @@ object WebViewHolder {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun createWebView(context: Context): WebView {
+    fun createWebView(context: Context): WebView {
         val webView = NestedScrollingWebView(context.applicationContext)
         webView.settings.also {
             it.javaScriptEnabled = true

@@ -9,7 +9,6 @@ package net.mm2d.customtabsbrowser
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -47,6 +46,7 @@ class CustomTabsActivity : AppCompatActivity() {
     private var tintedColor = Color.WHITE
     private var overridePackageName = false
     private lateinit var webView: WebView
+    private var loadUrl = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,26 +61,42 @@ class CustomTabsActivity : AppCompatActivity() {
         popupMenu = CustomOptionsMenuHelper(this, R.id.toolbar, R.id.action_overflow)
         customUi()
         webView = WebViewHolder.getWebView(this)
-        val url = if (intent.dataString != null) {
-            intent.dataString
-        } else {
-            "https://search.yahoo.co.jp/"
-        }
+        val url = intent.dataString ?: "https://search.yahoo.co.jp/"
         if (webView.url != url) {
+            loadUrl = true
             webView.loadUrl(url)
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        intent.dataString?.let {
+            if (webView.url != it) {
+                webView.loadUrl(it)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        finish()
     }
 
     override fun onResume() {
         super.onResume()
         connection.onNavigationEvent(CustomTabsCallback.TAB_SHOWN)
+        (webView.parent as? ViewGroup)?.removeView(webView)
+        web_view_container.addView(webView)
         setUpWebView()
     }
 
     override fun onPause() {
         super.onPause()
         connection.onNavigationEvent(CustomTabsCallback.TAB_HIDDEN)
-        web_view_holder.removeAllViews()
+        webView.webViewClient = WebViewClient()
+        webView.webChromeClient = WebChromeClient()
+        (webView.parent as? ViewGroup)?.removeView(webView)
     }
 
     private fun customUi() {
@@ -196,13 +212,13 @@ class CustomTabsActivity : AppCompatActivity() {
     @Suppress("OverridingDeprecatedMember")
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
-        (webView.parent as? ViewGroup)?.removeView(webView)
-        web_view_holder.addView(webView)
-        webView.url?.let {
-            if (it.isNotEmpty()) supportActionBar?.subtitle = it
-        }
-        webView.title?.let {
-            if (it.isNotEmpty()) supportActionBar?.title = it
+        if (!loadUrl) {
+            webView.url?.let {
+                if (it.isNotEmpty()) supportActionBar?.subtitle = it
+            }
+            webView.title?.let {
+                if (it.isNotEmpty()) supportActionBar?.title = it
+            }
         }
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
@@ -224,6 +240,13 @@ class CustomTabsActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 progress_bar.visibility = View.INVISIBLE
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
+            }
+
+            override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
+                if (loadUrl) {
+                    loadUrl = false
+                    //webView.clearHistory()
+                }
             }
 
             override fun onReceivedError(
@@ -332,15 +355,10 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     private fun onSelectOpenByBrowser() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webView.url))
-        intent.setClass(this, BrowserActivity::class.java)
-        intent.addCategory(Intent.CATEGORY_BROWSABLE)
-        try {
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-        }
+        BrowserActivity.startFromCustomTabs(this, webView)
         finish()
         connection.onOpenInBrowser()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     override fun getPackageName(): String {
