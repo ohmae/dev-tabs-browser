@@ -46,7 +46,6 @@ class CustomTabsActivity : AppCompatActivity() {
     private var tintedColor = Color.WHITE
     private var overridePackageName = false
     private lateinit var webView: WebView
-    private var loadUrl = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,13 +59,12 @@ class CustomTabsActivity : AppCompatActivity() {
 
         popupMenu = CustomOptionsMenuHelper(this, R.id.toolbar, R.id.action_overflow)
         customUi()
-        webView = WebViewHolder.getWebView(this)
         val url = intent.dataString ?: "https://search.yahoo.co.jp/"
-        if (!webView.url.isNullOrEmpty()) {
-            loadUrl = true
-            webView.visibility = View.INVISIBLE
-        }
-        if (webView.url != url) {
+        val view = WebViewHolder.getWebView()
+        if (view?.url == url) {
+            webView = view
+        } else {
+            webView = WebViewHolder.createWebView(this)
             webView.loadUrl(url)
         }
     }
@@ -219,21 +217,15 @@ class CustomTabsActivity : AppCompatActivity() {
     @Suppress("OverridingDeprecatedMember")
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
-        if (!loadUrl) {
-            webView.url?.let {
-                if (it.isNotEmpty()) supportActionBar?.subtitle = it
-            }
-            webView.title?.let {
-                if (it.isNotEmpty()) supportActionBar?.title = it
-            }
+        webView.url?.let {
+            if (it.isNotEmpty()) supportActionBar?.subtitle = it
+        }
+        webView.title?.let {
+            if (it.isNotEmpty()) supportActionBar?.title = it
         }
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 progress_bar.progress = newProgress
-                if (loadUrl && newProgress > 50) {
-                    loadUrl = false
-                    webView.visibility = View.VISIBLE
-                }
             }
 
             override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -251,12 +243,6 @@ class CustomTabsActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 progress_bar.visibility = View.INVISIBLE
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
-            }
-
-            override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
-                if (loadUrl) {
-                    webView.clearHistory()
-                }
             }
 
             override fun onReceivedError(

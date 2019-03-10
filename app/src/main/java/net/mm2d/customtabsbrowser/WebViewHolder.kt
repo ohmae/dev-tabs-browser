@@ -23,34 +23,34 @@ import java.lang.ref.SoftReference
  */
 @SuppressLint("StaticFieldLeak")
 object WebViewHolder {
-    private var webView: SoftReference<WebView>? = null
-    private var secondaryWebView: SoftReference<WebView>? = null
-    private var reference: SoftReference<WebView>? = null
+    private var webViewReference: SoftReference<WebView>? = null
+    private var backgroundWebViewReference: SoftReference<WebView>? = null
+    private var browserWebViewReference: SoftReference<WebView>? = null
 
-    fun getWebView(context: Context): WebView {
+    fun getWebView(): WebView? {
         try {
-            return ensureWebView(context)
+            return webViewReference?.get()
         } finally {
-            webView = null
+            webViewReference = null
         }
     }
 
     fun setBrowserWebView(view: WebView) {
-        reference = SoftReference(view)
+        browserWebViewReference = SoftReference(view)
     }
 
     fun getBrowserWebView(context: Context): WebView {
         try {
-            return reference?.get() ?: createWebView(context)
+            return browserWebViewReference?.get() ?: createWebView(context)
         } finally {
-            reference = null
+            browserWebViewReference = null
         }
     }
 
     private fun ensureWebView(context: Context): WebView {
-        webView?.get()?.let { return it }
+        webViewReference?.get()?.let { return it }
         return createWebView(context).also {
-            webView = SoftReference(it)
+            webViewReference = SoftReference(it)
         }
     }
 
@@ -79,7 +79,7 @@ object WebViewHolder {
     }
 
     fun mayLaunchUrl(uri: Uri?, otherLikelyBundles: List<Bundle>?) {
-        val webView = webView?.get() ?: return
+        val webView = webViewReference?.get() ?: return
         uri?.let {
             webView.loadUrl(uri.toString())
         }
@@ -87,13 +87,13 @@ object WebViewHolder {
             ?.mapNotNull { it.getParcelable<Uri>(CustomTabsService.KEY_URL)?.toString() }
         if (urlList.isNullOrEmpty()) return
         var index = 0
-        secondaryWebView = createWebView(webView.context).let {
+        backgroundWebViewReference = createWebView(webView.context).let {
             it.webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     if (++index < urlList.size) {
-                        secondaryWebView?.get()?.loadUrl(urlList[index])
+                        backgroundWebViewReference?.get()?.loadUrl(urlList[index])
                     } else {
-                        secondaryWebView = null
+                        backgroundWebViewReference = null
                     }
                 }
             }
