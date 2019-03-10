@@ -23,8 +23,8 @@ import java.lang.ref.SoftReference
  */
 @SuppressLint("StaticFieldLeak")
 object WebViewHolder {
-    private var webView: WebView? = null
-    private var secondaryWebView: WebView? = null
+    private var webView: SoftReference<WebView>? = null
+    private var secondaryWebView: SoftReference<WebView>? = null
     private var reference: SoftReference<WebView>? = null
 
     fun getWebView(context: Context): WebView {
@@ -48,9 +48,9 @@ object WebViewHolder {
     }
 
     private fun ensureWebView(context: Context): WebView {
-        webView?.let { return it }
+        webView?.get()?.let { return it }
         return createWebView(context).also {
-            webView = it
+            webView = SoftReference(it)
         }
     }
 
@@ -79,7 +79,7 @@ object WebViewHolder {
     }
 
     fun mayLaunchUrl(uri: Uri?, otherLikelyBundles: List<Bundle>?) {
-        val webView = webView ?: return
+        val webView = webView?.get() ?: return
         uri?.let {
             webView.loadUrl(uri.toString())
         }
@@ -87,17 +87,18 @@ object WebViewHolder {
             ?.mapNotNull { it.getParcelable<Uri>(CustomTabsService.KEY_URL)?.toString() }
         if (urlList.isNullOrEmpty()) return
         var index = 0
-        secondaryWebView = createWebView(webView.context).also {
+        secondaryWebView = createWebView(webView.context).let {
             it.webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     if (++index < urlList.size) {
-                        secondaryWebView?.loadUrl(urlList[index])
+                        secondaryWebView?.get()?.loadUrl(urlList[index])
                     } else {
                         secondaryWebView = null
                     }
                 }
             }
             it.loadUrl(urlList[index])
+            SoftReference(it)
         }
     }
 }
