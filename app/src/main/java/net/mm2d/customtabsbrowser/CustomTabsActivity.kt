@@ -81,25 +81,29 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        (webView.parent as? ViewGroup)?.removeView(webView)
+        web_view_container.addView(webView)
+        setUpWebView()
+    }
+
     override fun onStop() {
         super.onStop()
+        webView.webViewClient = WebViewClient()
+        webView.webChromeClient = WebChromeClient()
+        web_view_container.removeAllViews()
         finish()
     }
 
     override fun onResume() {
         super.onResume()
         connection.onNavigationEvent(CustomTabsCallback.TAB_SHOWN)
-        (webView.parent as? ViewGroup)?.removeView(webView)
-        web_view_container.addView(webView)
-        setUpWebView()
     }
 
     override fun onPause() {
         super.onPause()
         connection.onNavigationEvent(CustomTabsCallback.TAB_HIDDEN)
-        webView.webViewClient = WebViewClient()
-        webView.webChromeClient = WebChromeClient()
-        (webView.parent as? ViewGroup)?.removeView(webView)
     }
 
     private fun customUi() {

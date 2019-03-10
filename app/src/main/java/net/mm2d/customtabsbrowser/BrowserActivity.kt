@@ -53,18 +53,18 @@ class BrowserActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         (webView.parent as? ViewGroup)?.removeView(webView)
         web_view_container.addView(webView)
         setUpWebView()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
-        (webView.parent as? ViewGroup)?.removeView(webView)
+        web_view_container.removeAllViews()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
