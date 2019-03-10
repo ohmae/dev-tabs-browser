@@ -32,7 +32,6 @@ class IntentDispatcher : AppCompatActivity() {
         }
         try {
             startActivity(launchIntent)
-            overridePendingTransition(0, 0)
         } catch (e: ActivityNotFoundException) {
         }
     }
