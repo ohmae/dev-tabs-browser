@@ -29,9 +29,9 @@ A sample implementation for browser that support Chrome Custom Tabs.
   - [x] setAlwaysUseBrowserUI
 - Service
   - [x] bind/unbind
-  - [ ] warmup
+  - [x] warmup
   - [ ] newSession
-  - [ ] mayLaunchUrl
+  - [x] mayLaunchUrl
   - [x] onNavigationEvent
   - [x] extraCallback
     - [x] onBottomBarScrollStateChanged
