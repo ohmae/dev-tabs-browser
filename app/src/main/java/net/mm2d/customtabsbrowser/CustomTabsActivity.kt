@@ -62,8 +62,11 @@ class CustomTabsActivity : AppCompatActivity() {
         customUi()
         webView = WebViewHolder.getWebView(this)
         val url = intent.dataString ?: "https://search.yahoo.co.jp/"
-        if (webView.url != url) {
+        if (!webView.url.isNullOrEmpty()) {
             loadUrl = true
+            webView.visibility = View.INVISIBLE
+        }
+        if (webView.url != url) {
             webView.loadUrl(url)
         }
     }
@@ -223,6 +226,10 @@ class CustomTabsActivity : AppCompatActivity() {
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 progress_bar.progress = newProgress
+                if (loadUrl && newProgress > 50) {
+                    loadUrl = false
+                    webView.visibility = View.VISIBLE
+                }
             }
 
             override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -244,8 +251,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
             override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
                 if (loadUrl) {
-                    loadUrl = false
-                    //webView.clearHistory()
+                    webView.clearHistory()
                 }
             }
 
