@@ -64,8 +64,8 @@
             >
         </LinearLayout>
 
-        <net.mm2d.customtabsbrowser.NestedScrollingWebView
-            android:id="@+id/web_view"
+        <FrameLayout
+            android:id="@+id/web_view_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="net.mm2d.customtabsbrowser.NestedScrollingWebView$Behavior"

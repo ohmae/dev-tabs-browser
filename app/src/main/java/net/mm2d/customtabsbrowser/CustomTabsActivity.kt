@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.*
 import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
@@ -45,6 +46,7 @@ class CustomTabsActivity : AppCompatActivity() {
     private lateinit var connection: CustomTabsConnection
     private var tintedColor = Color.WHITE
     private var overridePackageName = false
+    private lateinit var webView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,22 +60,27 @@ class CustomTabsActivity : AppCompatActivity() {
 
         popupMenu = CustomOptionsMenuHelper(this, R.id.toolbar, R.id.action_overflow)
         customUi()
-        setUpWebView()
-        if (intent.dataString != null) {
-            web_view.loadUrl(intent.dataString)
+        webView = WebViewHolder.getWebView(this)
+        val url = if (intent.dataString != null) {
+            intent.dataString
         } else {
-            web_view.loadUrl("https://search.yahoo.co.jp/")
+            "https://search.yahoo.co.jp/"
+        }
+        if (webView.url != url) {
+            webView.loadUrl(url)
         }
     }
 
     override fun onResume() {
         super.onResume()
         connection.onNavigationEvent(CustomTabsCallback.TAB_SHOWN)
+        setUpWebView()
     }
 
     override fun onPause() {
         super.onPause()
         connection.onNavigationEvent(CustomTabsCallback.TAB_HIDDEN)
+        web_view_holder.removeAllViews()
     }
 
     private fun customUi() {
@@ -116,6 +123,11 @@ class CustomTabsActivity : AppCompatActivity() {
         reader.actionButtonParams?.let { applyActionButtonParams(it) }
         if (!tryShowRemoteViews()) {
             applyToolbarButtonParamsList(reader.toolbarButtonParamsList)
+        }
+        if (reader.enableUrlBarHiding) {
+            (toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
         }
     }
 
@@ -184,18 +196,15 @@ class CustomTabsActivity : AppCompatActivity() {
     @Suppress("OverridingDeprecatedMember")
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
-        if (reader.enableUrlBarHiding) {
-            (toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+        (webView.parent as? ViewGroup)?.removeView(webView)
+        web_view_holder.addView(webView)
+        webView.url?.let {
+            if (it.isNotEmpty()) supportActionBar?.subtitle = it
         }
-        web_view.settings.javaScriptEnabled = true
-        web_view.settings.setSupportZoom(true)
-        web_view.settings.builtInZoomControls = true
-        web_view.settings.displayZoomControls = false
-        web_view.settings.useWideViewPort = true
-        web_view.settings.loadWithOverviewMode = true
-        web_view.webChromeClient = object : WebChromeClient() {
+        webView.title?.let {
+            if (it.isNotEmpty()) supportActionBar?.title = it
+        }
+        webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 progress_bar.progress = newProgress
             }
@@ -204,7 +213,7 @@ class CustomTabsActivity : AppCompatActivity() {
                 if (reader.shouldShowTitle) supportActionBar?.title = title
             }
         }
-        web_view.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 progress_bar.progress = 0
                 progress_bar.visibility = View.VISIBLE
@@ -238,8 +247,8 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (web_view.canGoBack()) {
-            web_view.goBack()
+        if (webView.canGoBack()) {
+            webView.goBack()
             return
         }
         super.onBackPressed()
@@ -291,7 +300,7 @@ class CustomTabsActivity : AppCompatActivity() {
     private fun sendPendingIntentOnClick(pendingIntent: PendingIntent, id: Int) {
         val addedIntent = Intent().also {
             it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, id)
-            it.data = Uri.parse(web_view.url)
+            it.data = Uri.parse(webView.url)
         }
         try {
             pendingIntent.send(this, 0, addedIntent)
@@ -301,7 +310,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
     private fun sendPendingIntentWithUrl(pendingIntent: PendingIntent) {
         val addedIntent = Intent().also {
-            it.data = Uri.parse(web_view.url)
+            it.data = Uri.parse(webView.url)
         }
         try {
             pendingIntent.send(this, 0, addedIntent)
@@ -310,20 +319,20 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     private fun onSelectShare() {
-        val url = web_view.url ?: return
+        val url = webView.url ?: return
         if (!URLUtil.isNetworkUrl(url)) {
             return
         }
         ShareCompat.IntentBuilder.from(this)
             .setType("text/plain")
             .setText(url)
-            .setSubject(web_view.title)
+            .setSubject(webView.title)
             .setChooserTitle(R.string.action_share)
             .startChooser()
     }
 
     private fun onSelectOpenByBrowser() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(web_view.url))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webView.url))
         intent.setClass(this, BrowserActivity::class.java)
         intent.addCategory(Intent.CATEGORY_BROWSABLE)
         try {

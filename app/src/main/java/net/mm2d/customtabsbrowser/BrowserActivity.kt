@@ -41,6 +41,7 @@ class BrowserActivity : AppCompatActivity() {
         web_view.settings.displayZoomControls = false
         web_view.settings.useWideViewPort = true
         web_view.settings.loadWithOverviewMode = true
+        web_view.settings.domStorageEnabled = true
         web_view.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 progress_bar.progress = newProgress

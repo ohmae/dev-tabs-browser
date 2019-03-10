@@ -9,6 +9,8 @@ package net.mm2d.customtabsbrowser
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.browser.customtabs.CustomTabsService
 import androidx.browser.customtabs.CustomTabsSessionToken
 
@@ -16,14 +18,27 @@ import androidx.browser.customtabs.CustomTabsSessionToken
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
 class CustomTabsConnectionService : CustomTabsService() {
-    override fun warmup(flags: Long): Boolean = false
+    private val handler = Handler(Looper.getMainLooper())
+
+    override fun warmup(flags: Long): Boolean {
+        handler.post {
+            WebViewHolder.warmup(this)
+        }
+        return true
+    }
+
     override fun newSession(sessionToken: CustomTabsSessionToken?): Boolean = true
     override fun mayLaunchUrl(
         sessionToken: CustomTabsSessionToken?,
-        url: Uri?,
+        uri: Uri?,
         extras: Bundle?,
         otherLikelyBundles: MutableList<Bundle>?
-    ): Boolean = true
+    ): Boolean {
+        handler.post {
+            WebViewHolder.mayLaunchUrl(uri, otherLikelyBundles)
+        }
+        return true
+    }
 
     override fun extraCommand(commandName: String?, args: Bundle?): Bundle? = null
     override fun requestPostMessageChannel(
