@@ -177,11 +177,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
     private fun tryShowRemoteViews(): Boolean {
         val remoteViews = reader.remoteViews ?: return false
-        val inflatedViews = try {
-            remoteViews.apply(applicationContext, toolbar3)
-        } catch (e: ActionException) {
-            return false
-        }
+        val inflatedViews = remoteViews.apply(this, toolbar3)
         toolbar3.visibility = View.VISIBLE
         toolbar3.addView(inflatedViews)
         val pendingIntent = reader.remoteViewsPendingIntent ?: return true
