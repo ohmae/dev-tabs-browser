@@ -24,7 +24,6 @@ import android.view.ViewGroup
 import android.webkit.*
 import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
-import android.widget.RemoteViews.ActionException
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsCallback
