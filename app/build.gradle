@@ -1,6 +1,7 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "com.github.ben-manes.versions"
 
 android {
     compileSdkVersion 29
@@ -41,4 +42,17 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.robolectric:robolectric:4.3.1'
+}
+
+dependencyUpdates.resolutionStrategy {
+    componentSelection { rules ->
+        rules.all { selection ->
+            boolean rejected = ["alpha", "beta", "rc", "cr", "m", "preview", "b", "ea"].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-+]*/
+            }
+            if (rejected) {
+                selection.reject("Release candidate")
+            }
+        }
+    }
 }
