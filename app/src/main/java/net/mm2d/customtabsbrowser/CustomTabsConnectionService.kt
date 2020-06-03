@@ -20,12 +20,10 @@ import androidx.browser.customtabs.CustomTabsSessionToken
 class CustomTabsConnectionService : CustomTabsService() {
     private val handler = Handler(Looper.getMainLooper())
 
-    override fun warmup(flags: Long): Boolean {
+    override fun warmup(flags: Long): Boolean =
         handler.post {
             WebViewHolder.warmup(this)
         }
-        return true
-    }
 
     override fun newSession(sessionToken: CustomTabsSessionToken): Boolean = true
     override fun mayLaunchUrl(
@@ -33,12 +31,10 @@ class CustomTabsConnectionService : CustomTabsService() {
         uri: Uri,
         extras: Bundle?,
         otherLikelyBundles: MutableList<Bundle>?
-    ): Boolean {
+    ): Boolean =
         handler.post {
             WebViewHolder.mayLaunchUrl(uri, otherLikelyBundles)
         }
-        return true
-    }
 
     override fun extraCommand(commandName: String, args: Bundle?): Bundle? = null
     override fun receiveFile(

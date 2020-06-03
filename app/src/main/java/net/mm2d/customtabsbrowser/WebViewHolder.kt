@@ -27,25 +27,23 @@ object WebViewHolder {
     private var backgroundWebViewReference: SoftReference<WebView>? = null
     private var browserWebViewReference: SoftReference<WebView>? = null
 
-    fun getWebView(): WebView? {
+    fun getWebView(): WebView? =
         try {
-            return webViewReference?.get()
+            webViewReference?.get()
         } finally {
             webViewReference = null
         }
-    }
 
     fun setBrowserWebView(view: WebView) {
         browserWebViewReference = SoftReference(view)
     }
 
-    fun getBrowserWebView(context: Context): WebView {
+    fun getBrowserWebView(context: Context): WebView =
         try {
-            return browserWebViewReference?.get() ?: createWebView(context)
+            browserWebViewReference?.get() ?: createWebView(context)
         } finally {
             browserWebViewReference = null
         }
-    }
 
     private fun ensureWebView(context: Context): WebView {
         webViewReference?.get()?.let { return it }

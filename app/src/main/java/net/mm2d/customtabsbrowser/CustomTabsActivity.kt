@@ -147,7 +147,7 @@ class CustomTabsActivity : AppCompatActivity() {
         if (reader.enableUrlBarHiding) {
             (toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
         }
     }
 

@@ -13,9 +13,8 @@ import android.graphics.Color
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
 
-internal fun Int.isDarkColor(): Boolean {
-    return getBrightness() < 0.5f
-}
+internal fun Int.isDarkColor(): Boolean =
+    getBrightness() < 0.5f
 
 internal fun Int.getBrightness(): Float {
     val r = Color.red(this) / 255f

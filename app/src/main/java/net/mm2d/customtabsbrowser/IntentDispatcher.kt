@@ -25,11 +25,12 @@ class IntentDispatcher : AppCompatActivity() {
 
     private fun dispatch() {
         val launchIntent = intent ?: return
-        if (isCustomTabIntent(launchIntent)) {
-            launchIntent.setClass(this, CustomTabsActivity::class.java)
+        val clazz = if (isCustomTabIntent(launchIntent)) {
+            CustomTabsActivity::class.java
         } else {
-            launchIntent.setClass(this, BrowserActivity::class.java)
+            BrowserActivity::class.java
         }
+        launchIntent.setClass(this, clazz)
         try {
             startActivity(launchIntent)
         } catch (e: ActivityNotFoundException) {

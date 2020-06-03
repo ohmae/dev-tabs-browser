@@ -34,7 +34,5 @@ class BottomBarBehavior(
         parent: CoordinatorLayout,
         child: View,
         dependency: View
-    ): Boolean {
-        return dependency is AppBarLayout
-    }
+    ): Boolean = dependency is AppBarLayout
 }

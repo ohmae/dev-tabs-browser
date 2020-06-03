@@ -13,7 +13,7 @@ import android.webkit.WebView
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
-class BrowserApplication: Application() {
+class BrowserApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {

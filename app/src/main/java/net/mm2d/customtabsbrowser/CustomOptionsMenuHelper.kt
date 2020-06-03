@@ -70,6 +70,7 @@ class CustomOptionsMenuHelper(activity: Activity, toolbarId: Int, private val ov
     companion object {
         @Dimension(unit = Dimension.DP)
         private const val MARGIN = 4
+
         @Dimension(unit = Dimension.DP)
         private const val WIDTH = 200
     }

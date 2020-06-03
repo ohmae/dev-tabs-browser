@@ -90,10 +90,9 @@ class CustomTabsIntentReader(intent: Intent) {
         private val BUNDLE_ENTER_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animEnterRes"
         private val BUNDLE_EXIT_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animExitRes"
 
-        private fun makeMenuParamsList(intent: Intent): List<MenuParams> {
-            return intent.getParcelableArrayListExtraSafely<Bundle>(EXTRA_MENU_ITEMS)
+        private fun makeMenuParamsList(intent: Intent): List<MenuParams> =
+            intent.getParcelableArrayListExtraSafely<Bundle>(EXTRA_MENU_ITEMS)
                 ?.mapNotNull { makeMenuParams(it) } ?: emptyList()
-        }
 
         private fun makeMenuParams(bundle: Bundle): MenuParams? {
             val title = bundle.getStringSafelyNonNull(KEY_MENU_ITEM_TITLE)
@@ -101,13 +100,12 @@ class CustomTabsIntentReader(intent: Intent) {
             return MenuParams(title, bundle.getParcelableSafely(KEY_PENDING_INTENT))
         }
 
-        private fun makeActionButtonParams(intent: Intent): ButtonParams? {
-            return intent.getBundleExtraSafely(EXTRA_ACTION_BUTTON_BUNDLE)?.let {
+        private fun makeActionButtonParams(intent: Intent): ButtonParams? =
+            intent.getBundleExtraSafely(EXTRA_ACTION_BUTTON_BUNDLE)?.let {
                 val id = it.getIntSafely(KEY_ID, TOOLBAR_ACTION_BUTTON_ID)
                 val shouldTint = intent.getBooleanExtraSafely(EXTRA_TINT_ACTION_BUTTON, false)
                 makeButtonParams(id, shouldTint, it)
             }
-        }
 
         private fun makeToolbarButtonParamsList(
             intent: Intent,
@@ -115,12 +113,13 @@ class CustomTabsIntentReader(intent: Intent) {
         ): List<ButtonParams> {
             val idSet =
                 if (existActionButton) mutableSetOf(TOOLBAR_ACTION_BUTTON_ID) else mutableSetOf()
-            return intent.getParcelableArrayListExtraSafely<Bundle>(EXTRA_TOOLBAR_ITEMS)?.mapNotNull {
-                val id = it.getIntSafely(KEY_ID, TOOLBAR_ACTION_BUTTON_ID)
-                if (idSet.contains(id)) return@mapNotNull null
-                idSet.add(id)
-                makeButtonParams(id, false, it)
-            } ?: emptyList()
+            return intent.getParcelableArrayListExtraSafely<Bundle>(EXTRA_TOOLBAR_ITEMS)
+                ?.mapNotNull {
+                    val id = it.getIntSafely(KEY_ID, TOOLBAR_ACTION_BUTTON_ID)
+                    if (idSet.contains(id)) return@mapNotNull null
+                    idSet.add(id)
+                    makeButtonParams(id, false, it)
+                } ?: emptyList()
         }
 
         private fun makeButtonParams(id: Int, shouldTint: Boolean, bundle: Bundle): ButtonParams? {
