@@ -104,11 +104,11 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     private fun customUi() {
-        val darkToolbar = reader.toolbarColor.isDarkColor()
+        val shouldUseWhiteForeground = reader.toolbarColor.shouldUseWhiteForeground()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.statusBarColor = reader.toolbarColor
             val decorView = window.decorView
-            decorView.systemUiVisibility = if (darkToolbar) {
+            decorView.systemUiVisibility = if (shouldUseWhiteForeground) {
                 decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
             } else {
                 decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -118,10 +118,10 @@ class CustomTabsActivity : AppCompatActivity() {
         app_bar.setBackgroundColor(reader.toolbarColor)
         progress_bar.progressDrawable = ContextCompat.getDrawable(
             this,
-            if (darkToolbar) R.drawable.browser_progress_dark
+            if (shouldUseWhiteForeground) R.drawable.browser_progress_dark
             else R.drawable.browser_progress
         )
-        if (darkToolbar) {
+        if (shouldUseWhiteForeground) {
             setForegroundColor(R.color.text_main_dark, R.color.text_sub_dark)
         } else {
             setForegroundColor(R.color.text_main, R.color.text_sub)
@@ -136,7 +136,7 @@ class CustomTabsActivity : AppCompatActivity() {
         toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
         toolbar3.setBackgroundColor(reader.secondaryToolbarColor)
         AppCompatResources.getDrawable(this, R.drawable.ic_close)?.let {
-            it.setTint(if (darkToolbar) Color.WHITE else Color.BLACK)
+            it.setTint(if (shouldUseWhiteForeground) Color.WHITE else Color.BLACK)
             toolbar.navigationIcon = it
         }
         reader.closeIcon?.let { toolbar.navigationIcon = BitmapDrawable(resources, it) }
