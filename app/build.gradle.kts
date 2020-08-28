@@ -1,7 +1,11 @@
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
-apply plugin: "com.github.ben-manes.versions"
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-android-extensions")
+    id("com.github.ben-manes.versions")
+}
 
 android {
     compileSdkVersion(29)
@@ -21,13 +25,13 @@ android {
         jvmTarget = "1.8"
     }
     buildTypes {
-        release {
-            minifyEnabled = false
+        getByName("release") {
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
     testOptions {
-        unitTests.includeAndroidResources = true
+        unitTests.isIncludeAndroidResources = true
     }
 }
 
@@ -44,14 +48,13 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.3.1")
 }
 
-def isNonStable = { String version ->
-    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
-    def regex = /^[0-9,.v-]+(-r)?$/
-    return !stableKeyword && !(version ==~ regex)
+fun isStable(version: String): Boolean {
+    val versionUpperCase = version.toUpperCase()
+    val hasStableKeyword = listOf("RELEASE", "FINAL", "GA").any { versionUpperCase.contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    return hasStableKeyword || regex.matches(version)
 }
 
-tasks.named("dependencyUpdates").configure {
-    rejectVersionIf {
-        isNonStable(it.candidate.version)
-    }
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+    rejectVersionIf { !isStable(candidate.version) }
 }
