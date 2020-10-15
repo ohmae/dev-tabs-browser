@@ -42,12 +42,12 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.browser:browser:1.2.0")
     implementation("com.google.android.material:material:1.2.1")
-    testImplementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13.1")
     testImplementation("org.robolectric:robolectric:4.4")
 }
 
