@@ -37,7 +37,7 @@ class CustomOptionsMenuHelper(activity: Activity, toolbarId: Int, private val ov
         it.inputMethodMode = PopupWindow.INPUT_METHOD_NOT_NEEDED
         it.setAdapter(adapter)
         it.setOnItemClickListener { _, _, position, _ ->
-            activity.onOptionsItemSelected(adapter.getItem(position))
+            activity.onOptionsItemSelected(adapter.getItem(position)!!)
             it.dismiss()
         }
     }
