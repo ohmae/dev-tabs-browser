@@ -22,9 +22,9 @@ private fun calculateContrast(color1: Int, color2: Int): Float {
     val l1 = color1.calculateRelativeLuminance()
     val l2 = color2.calculateRelativeLuminance()
     return if (l1 > l2) {
-        (l1 / 0.05f) / (l2 + 0.05f)
+        (l1 + 0.05f) / (l2 + 0.05f)
     } else {
-        (l2 / 0.05f) / (l1 + 0.05f)
+        (l2 + 0.05f) / (l1 + 0.05f)
     }
 }
 
