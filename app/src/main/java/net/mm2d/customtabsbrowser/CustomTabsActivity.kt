@@ -32,8 +32,8 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
-import kotlinx.android.synthetic.main.activity_custom_tabs.*
 import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
+import net.mm2d.customtabsbrowser.databinding.ActivityCustomTabsBinding
 
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
@@ -45,11 +45,13 @@ class CustomTabsActivity : AppCompatActivity() {
     private var tintedColor = Color.WHITE
     private var overridePackageName = false
     private lateinit var webView: WebView
+    private lateinit var binding: ActivityCustomTabsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_custom_tabs)
-        setSupportActionBar(toolbar)
+        binding = ActivityCustomTabsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -81,7 +83,7 @@ class CustomTabsActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         (webView.parent as? ViewGroup)?.removeView(webView)
-        web_view_container.addView(webView)
+        binding.webViewContainer.addView(webView)
         setUpWebView()
     }
 
@@ -89,7 +91,7 @@ class CustomTabsActivity : AppCompatActivity() {
         super.onStop()
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
-        web_view_container.removeAllViews()
+        binding.webViewContainer.removeAllViews()
         finish()
     }
 
@@ -114,9 +116,9 @@ class CustomTabsActivity : AppCompatActivity() {
                 decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
-        toolbar.setBackgroundColor(reader.toolbarColor)
-        app_bar.setBackgroundColor(reader.toolbarColor)
-        progress_bar.progressDrawable = ContextCompat.getDrawable(
+        binding.toolbar.setBackgroundColor(reader.toolbarColor)
+        binding.appBar.setBackgroundColor(reader.toolbarColor)
+        binding.progressBar.progressDrawable = ContextCompat.getDrawable(
             this,
             if (shouldUseWhiteForeground) R.drawable.browser_progress_dark
             else R.drawable.browser_progress
@@ -126,26 +128,26 @@ class CustomTabsActivity : AppCompatActivity() {
         } else {
             setForegroundColor(R.color.text_main, R.color.text_sub)
         }
-        app_bar.addOnOffsetChangedListener(OnOffsetChangedListener { _, offset ->
+        binding.appBar.addOnOffsetChangedListener(OnOffsetChangedListener { _, offset ->
             if (offset == 0) {
                 connection.onBottomBarScrollStateChanged(false)
-            } else if (offset == -toolbar.height) {
+            } else if (offset == -binding.toolbar.height) {
                 connection.onBottomBarScrollStateChanged(true)
             }
         })
-        toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
-        toolbar3.setBackgroundColor(reader.secondaryToolbarColor)
+        binding.toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
+        binding.toolbar3.setBackgroundColor(reader.secondaryToolbarColor)
         AppCompatResources.getDrawable(this, R.drawable.ic_close)?.let {
             it.setTint(if (shouldUseWhiteForeground) Color.WHITE else Color.BLACK)
-            toolbar.navigationIcon = it
+            binding.toolbar.navigationIcon = it
         }
-        reader.closeIcon?.let { toolbar.navigationIcon = BitmapDrawable(resources, it) }
+        reader.closeIcon?.let { binding.toolbar.navigationIcon = BitmapDrawable(resources, it) }
         reader.actionButtonParams?.let { applyActionButtonParams(it) }
         if (!tryShowRemoteViews()) {
             applyToolbarButtonParamsList(reader.toolbarButtonParamsList)
         }
         if (reader.enableUrlBarHiding) {
-            (toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
+            (binding.toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
                     AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
         }
@@ -154,21 +156,21 @@ class CustomTabsActivity : AppCompatActivity() {
     private fun setForegroundColor(mainColorId: Int, subColorId: Int) {
         val mainColor = ContextCompat.getColor(this, mainColorId)
         val subColor = ContextCompat.getColor(this, subColorId)
-        toolbar.setTitleTextColor(mainColor)
-        toolbar.setSubtitleTextColor(subColor)
-        toolbar.overflowIcon?.setTint(mainColor)
-        toolbar.navigationIcon?.setTint(mainColor)
+        binding.toolbar.setTitleTextColor(mainColor)
+        binding.toolbar.setSubtitleTextColor(subColor)
+        binding.toolbar.overflowIcon?.setTint(mainColor)
+        binding.toolbar.navigationIcon?.setTint(mainColor)
         tintedColor = mainColor
     }
 
     private fun applyActionButtonParams(params: ButtonParams) {
-        action_button.visibility = View.VISIBLE
-        action_button.setImageBitmap(params.icon)
+        binding.actionButton.visibility = View.VISIBLE
+        binding.actionButton.setImageBitmap(params.icon)
         if (params.shouldTint) {
-            action_button.setColorFilter(tintedColor)
+            binding.actionButton.setColorFilter(tintedColor)
         }
         if (params.pendingIntent != null) {
-            action_button.setOnClickListener {
+            binding.actionButton.setOnClickListener {
                 sendPendingIntentWithUrl(params.pendingIntent)
             }
         }
@@ -176,9 +178,9 @@ class CustomTabsActivity : AppCompatActivity() {
 
     private fun tryShowRemoteViews(): Boolean {
         val remoteViews = reader.remoteViews ?: return false
-        val inflatedViews = remoteViews.apply(this, toolbar3)
-        toolbar3.visibility = View.VISIBLE
-        toolbar3.addView(inflatedViews)
+        val inflatedViews = remoteViews.apply(this, binding.toolbar3)
+        binding.toolbar3.visibility = View.VISIBLE
+        binding.toolbar3.addView(inflatedViews)
         val pendingIntent = reader.remoteViewsPendingIntent ?: return true
         reader.remoteViewsClickableIDs?.filter { it >= 0 }?.forEach {
             inflatedViews.findViewById<View>(it)?.setOnClickListener { v ->
@@ -192,12 +194,12 @@ class CustomTabsActivity : AppCompatActivity() {
         if (list.isEmpty()) {
             return
         }
-        toolbar2.visibility = View.VISIBLE
+        binding.toolbar2.visibility = View.VISIBLE
         val layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT)
             .also { it.weight = 1f }
         list.forEach {
             val button =
-                layoutInflater.inflate(R.layout.buttom_button, toolbar2, false) as ImageView
+                layoutInflater.inflate(R.layout.buttom_button, binding.toolbar2, false) as ImageView
             button.id = it.id
             button.setImageBitmap(it.icon)
             it.pendingIntent?.let { pendingIntent ->
@@ -205,7 +207,7 @@ class CustomTabsActivity : AppCompatActivity() {
                     sendPendingIntentOnClick(pendingIntent, v.id)
                 }
             }
-            toolbar2.addView(button, layoutParams)
+            binding.toolbar2.addView(button, layoutParams)
         }
     }
 
@@ -220,7 +222,7 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                progress_bar.progress = newProgress
+                binding.progressBar.progress = newProgress
             }
 
             override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -229,14 +231,14 @@ class CustomTabsActivity : AppCompatActivity() {
         }
         webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                progress_bar.progress = 0
-                progress_bar.visibility = View.VISIBLE
+                binding.progressBar.progress = 0
+                binding.progressBar.visibility = View.VISIBLE
                 supportActionBar?.subtitle = url
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_STARTED)
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
-                progress_bar.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.INVISIBLE
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
             }
 

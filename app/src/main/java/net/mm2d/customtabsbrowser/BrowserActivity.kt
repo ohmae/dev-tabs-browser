@@ -20,17 +20,19 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_browser.*
+import net.mm2d.customtabsbrowser.databinding.ActivityBrowserBinding
 
 /**
  * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
  */
 class BrowserActivity : AppCompatActivity() {
     private lateinit var webView: WebView
+    private lateinit var binding: ActivityBrowserBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_browser)
+        binding = ActivityBrowserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.title = ""
         webView = if (intent.getBooleanExtra(EXTRA_FROM_CUSTOM_TABS, false)) {
             WebViewHolder.getBrowserWebView(this)
@@ -56,7 +58,7 @@ class BrowserActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         (webView.parent as? ViewGroup)?.removeView(webView)
-        web_view_container.addView(webView)
+        binding.webViewContainer.addView(webView)
         setUpWebView()
     }
 
@@ -64,7 +66,7 @@ class BrowserActivity : AppCompatActivity() {
         super.onStop()
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
-        web_view_container.removeAllViews()
+        binding.webViewContainer.removeAllViews()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -77,7 +79,7 @@ class BrowserActivity : AppCompatActivity() {
         }
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                progress_bar.progress = newProgress
+                binding.progressBar.progress = newProgress
             }
 
             override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -86,13 +88,13 @@ class BrowserActivity : AppCompatActivity() {
         }
         webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                progress_bar.progress = 0
-                progress_bar.visibility = View.VISIBLE
+                binding.progressBar.progress = 0
+                binding.progressBar.visibility = View.VISIBLE
                 supportActionBar?.subtitle = url
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
-                progress_bar.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.INVISIBLE
             }
         }
     }
