@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF6D00</color>
     <color name="text_main">#000000</color>
-    <color name="text_sub">#444444</color>
+    <color name="text_sub">#C0000000</color>
     <color name="text_main_dark">#FFFFFF</color>
-    <color name="text_sub_dark">#BBBBBB</color>
+    <color name="text_sub_dark">#C0FFFFFF</color>
     <color name="text_credit">#9E9E9E</color>
     <color name="border_credit">#E0E0E0</color>
     <color name="shadow_credit">#BDBDBD</color>
