@@ -14,9 +14,6 @@ import android.os.Looper
 import androidx.browser.customtabs.CustomTabsService
 import androidx.browser.customtabs.CustomTabsSessionToken
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 class CustomTabsConnectionService : CustomTabsService() {
     private val handler = Handler(Looper.getMainLooper())
 

@@ -11,9 +11,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import androidx.browser.customtabs.CustomTabsCallback
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 class CustomTabsConnection(private val callback: CustomTabsCallback?) {
     private var hidden: Boolean = false
     fun onNavigationEvent(event: Int) {

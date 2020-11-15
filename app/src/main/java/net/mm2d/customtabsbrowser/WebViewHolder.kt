@@ -18,9 +18,6 @@ import androidx.browser.customtabs.CustomTabsService
 import java.io.File
 import java.lang.ref.SoftReference
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 @SuppressLint("StaticFieldLeak")
 object WebViewHolder {
     private var webViewReference: SoftReference<WebView>? = null

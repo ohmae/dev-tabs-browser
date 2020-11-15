@@ -13,9 +13,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 class IntentDispatcher : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

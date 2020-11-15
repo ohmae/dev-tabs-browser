@@ -13,9 +13,6 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 @Suppress("unused")
 class BottomBarBehavior(
     context: Context,

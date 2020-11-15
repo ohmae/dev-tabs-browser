@@ -22,9 +22,6 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import net.mm2d.customtabsbrowser.databinding.ActivityBrowserBinding
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 class BrowserActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var binding: ActivityBrowserBinding

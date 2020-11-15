@@ -18,9 +18,6 @@ import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsIntent.*
 import androidx.browser.customtabs.CustomTabsSessionToken
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 class CustomTabsIntentReader(intent: Intent) {
     val shouldShowTitle: Boolean =
         intent.getIntExtraSafely(EXTRA_TITLE_VISIBILITY_STATE, NO_TITLE) == SHOW_PAGE_TITLE

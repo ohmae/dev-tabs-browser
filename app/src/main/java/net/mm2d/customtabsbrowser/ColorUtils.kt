@@ -10,10 +10,6 @@ package net.mm2d.customtabsbrowser
 import android.graphics.Color
 import kotlin.math.pow
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
-
 internal fun Int.shouldUseWhiteForeground(): Boolean =
     calculateContrast(this, Color.WHITE) >= 3
 

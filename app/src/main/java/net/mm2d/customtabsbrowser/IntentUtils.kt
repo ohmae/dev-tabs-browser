@@ -11,9 +11,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 internal fun Intent.getBooleanExtraSafely(key: String, default: Boolean = false): Boolean =
     runCatching { getBooleanExtra(key, default) }.getOrDefault(default)
 

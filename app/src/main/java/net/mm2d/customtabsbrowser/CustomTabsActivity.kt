@@ -35,9 +35,6 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
 import net.mm2d.customtabsbrowser.databinding.ActivityCustomTabsBinding
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 class CustomTabsActivity : AppCompatActivity() {
     private lateinit var popupMenu: CustomOptionsMenuHelper
     private lateinit var reader: CustomTabsIntentReader

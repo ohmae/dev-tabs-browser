@@ -21,9 +21,6 @@ import androidx.core.view.forEach
 import java.lang.ref.WeakReference
 import kotlin.math.roundToInt
 
-/**
- * @author [大前良介 (OHMAE Ryosuke)](mailto:ryo@mm2d.net)
- */
 class CustomOptionsMenuHelper(activity: Activity, toolbarId: Int, private val overflowIconId: Int) {
     private val activityReference = WeakReference(activity)
     private val toolbar = activity.findViewById<Toolbar>(toolbarId)
