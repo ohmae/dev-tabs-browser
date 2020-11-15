@@ -17,7 +17,7 @@ A sample implementation for browser that support Chrome Custom Tabs.
   - [x] enableUrlBarHiding
   - [x] addDefaultShareMenuItem
   - [x] addMenuItem
-  - [x] setActuionButton
+  - [x] setActionButton
     - [x] shouldTint
   - [x] addToolbarItm
   - [x] setCloseButtonIcon
