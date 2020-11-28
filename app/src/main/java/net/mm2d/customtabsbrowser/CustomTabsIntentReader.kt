@@ -27,6 +27,7 @@ class CustomTabsIntentReader(intent: Intent) {
     val toolbarColor: Int = intent.getIntExtraSafely(EXTRA_TOOLBAR_COLOR, Color.WHITE)
     val secondaryToolbarColor: Int =
         intent.getIntExtraSafely(EXTRA_SECONDARY_TOOLBAR_COLOR, toolbarColor)
+    val colorScheme: Int = intent.getIntExtraSafely(EXTRA_COLOR_SCHEME, COLOR_SCHEME_SYSTEM)
     val closeIcon: Bitmap? = intent.getParcelableExtraSafely(EXTRA_CLOSE_BUTTON_ICON)
     val callback: CustomTabsCallback? = try {
         CustomTabsSessionToken.getSessionTokenFromIntent(intent)?.callback

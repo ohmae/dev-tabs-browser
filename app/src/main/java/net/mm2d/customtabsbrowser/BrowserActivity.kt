@@ -20,6 +20,8 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.webkit.WebViewClientCompat
 import net.mm2d.customtabsbrowser.databinding.ActivityBrowserBinding
 
 class BrowserActivity : AppCompatActivity() {
@@ -28,6 +30,7 @@ class BrowserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         binding = ActivityBrowserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = ""
@@ -36,10 +39,12 @@ class BrowserActivity : AppCompatActivity() {
         } else {
             WebViewHolder.createWebView(this)
         }
-        val url = intent.dataString ?: "https://search.yahoo.co.jp/"
+        val url = intent.dataString ?: "https://cs.android.com/"
         if (webView.url != url) {
             webView.loadUrl(url)
         }
+        webView.isFocusableInTouchMode = true
+        WebViewNightMode.apply(this, webView)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -61,7 +66,7 @@ class BrowserActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        webView.webViewClient = WebViewClient()
+        webView.webViewClient = WebViewClientCompat()
         webView.webChromeClient = WebChromeClient()
         binding.webViewContainer.removeAllViews()
     }

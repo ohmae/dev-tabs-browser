@@ -25,11 +25,13 @@ import android.webkit.*
 import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
+import androidx.webkit.WebViewClientCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
@@ -46,13 +48,14 @@ class CustomTabsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        reader = CustomTabsIntentReader(intent)
+        applyColorScheme(reader.colorScheme)
         binding = ActivityCustomTabsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        reader = CustomTabsIntentReader(intent)
         connection = CustomTabsConnection(reader.callback)
 
         popupMenu = CustomOptionsMenuHelper(this, R.id.toolbar, R.id.action_overflow)
@@ -65,6 +68,8 @@ class CustomTabsActivity : AppCompatActivity() {
             webView = WebViewHolder.createWebView(this)
             webView.loadUrl(url)
         }
+        webView.isFocusableInTouchMode = true
+        WebViewNightMode.apply(this, webView)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -100,6 +105,15 @@ class CustomTabsActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         connection.onNavigationEvent(CustomTabsCallback.TAB_HIDDEN)
+    }
+
+    private fun applyColorScheme(colorScheme: Int) {
+        val nightMode: Int = when (colorScheme) {
+            CustomTabsIntent.COLOR_SCHEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            CustomTabsIntent.COLOR_SCHEME_LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        AppCompatDelegate.setDefaultNightMode(nightMode)
     }
 
     private fun customUi() {
@@ -226,7 +240,7 @@ class CustomTabsActivity : AppCompatActivity() {
                 if (reader.shouldShowTitle) supportActionBar?.title = title
             }
         }
-        webView.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClientCompat() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 binding.progressBar.progress = 0
                 binding.progressBar.visibility = View.VISIBLE
