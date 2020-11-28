@@ -36,6 +36,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
 import net.mm2d.customtabsbrowser.databinding.ActivityCustomTabsBinding
+import net.mm2d.customtabsbrowser.extension.shouldUseWhiteForeground
 
 class CustomTabsActivity : AppCompatActivity() {
     private lateinit var popupMenu: CustomOptionsMenuHelper
@@ -47,9 +48,9 @@ class CustomTabsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCustomTabsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         reader = CustomTabsIntentReader(intent)
-        applyColorScheme(reader.colorScheme)
+        setUpSystemUi()
+        super.onCreate(savedInstanceState)
         binding = ActivityCustomTabsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
@@ -107,6 +108,12 @@ class CustomTabsActivity : AppCompatActivity() {
         connection.onNavigationEvent(CustomTabsCallback.TAB_HIDDEN)
     }
 
+    private fun setUpSystemUi() {
+        applyColorScheme(reader.colorScheme)
+        val colorSchemeParams = reader.getColorSchemeParams(this)
+        window.navigationBarColor = colorSchemeParams.navigationBarColor
+    }
+
     private fun applyColorScheme(colorScheme: Int) {
         val nightMode: Int = when (colorScheme) {
             CustomTabsIntent.COLOR_SCHEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
@@ -117,9 +124,10 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     private fun customUi() {
-        val shouldUseWhiteForeground = reader.toolbarColor.shouldUseWhiteForeground()
+        val colorSchemeParams = reader.getColorSchemeParams(this)
+        val shouldUseWhiteForeground = colorSchemeParams.toolbarColor.shouldUseWhiteForeground()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.statusBarColor = reader.toolbarColor
+            window.statusBarColor = colorSchemeParams.toolbarColor
             val decorView = window.decorView
             decorView.systemUiVisibility = if (shouldUseWhiteForeground) {
                 decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
@@ -127,8 +135,8 @@ class CustomTabsActivity : AppCompatActivity() {
                 decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
-        binding.toolbar.setBackgroundColor(reader.toolbarColor)
-        binding.appBar.setBackgroundColor(reader.toolbarColor)
+        binding.toolbar.setBackgroundColor(colorSchemeParams.toolbarColor)
+        binding.appBar.setBackgroundColor(colorSchemeParams.toolbarColor)
         binding.progressBar.progressDrawable = ContextCompat.getDrawable(
             this,
             if (shouldUseWhiteForeground) R.drawable.browser_progress_dark
@@ -146,8 +154,8 @@ class CustomTabsActivity : AppCompatActivity() {
                 connection.onBottomBarScrollStateChanged(true)
             }
         })
-        binding.toolbar2.setBackgroundColor(reader.secondaryToolbarColor)
-        binding.toolbar3.setBackgroundColor(reader.secondaryToolbarColor)
+        binding.toolbar2.setBackgroundColor(colorSchemeParams.secondaryToolbarColor)
+        binding.toolbar3.setBackgroundColor(colorSchemeParams.secondaryToolbarColor)
         AppCompatResources.getDrawable(this, R.drawable.ic_close)?.let {
             it.setTint(if (shouldUseWhiteForeground) Color.WHITE else Color.BLACK)
             binding.toolbar.navigationIcon = it

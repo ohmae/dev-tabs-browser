@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="border_credit">#404040</color>
+    <color name="shadow_credit">#202020</color>
+</resources>

@@ -20,7 +20,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.webkit.WebViewClientCompat
 import net.mm2d.customtabsbrowser.databinding.ActivityBrowserBinding
 
@@ -30,7 +29,6 @@ class BrowserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         binding = ActivityBrowserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = ""
