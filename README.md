@@ -27,6 +27,8 @@ A sample implementation for browser that support Chrome Custom Tabs.
   - [x] setSecondaryToolbarViews
   - [ ] setInstantAppsEnabled
   - [x] setAlwaysUseBrowserUI
+  - [x] setColorScheme
+  - [x] setColorSchemeParams
 - Service
   - [x] bind/unbind
   - [x] warmup
