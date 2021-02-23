@@ -48,10 +48,10 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.browser:browser:1.3.0")
-    implementation("androidx.webkit:webkit:1.3.0")
-    implementation("com.google.android.material:material:1.2.1")
-    testImplementation("junit:junit:4.13.1")
-    testImplementation("org.robolectric:robolectric:4.4")
+    implementation("androidx.webkit:webkit:1.4.0")
+    implementation("com.google.android.material:material:1.3.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.robolectric:robolectric:4.5.1")
 }
 
 fun isStable(version: String): Boolean {
