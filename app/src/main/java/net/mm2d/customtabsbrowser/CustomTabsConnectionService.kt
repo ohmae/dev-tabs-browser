@@ -25,7 +25,7 @@ class CustomTabsConnectionService : CustomTabsService() {
     override fun newSession(sessionToken: CustomTabsSessionToken): Boolean = true
     override fun mayLaunchUrl(
         sessionToken: CustomTabsSessionToken,
-        uri: Uri,
+        uri: Uri?,
         extras: Bundle?,
         otherLikelyBundles: MutableList<Bundle>?
     ): Boolean =
