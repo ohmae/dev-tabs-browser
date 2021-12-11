@@ -25,6 +25,7 @@
             android:name=".EntryPoint"
             android:label="@string/app_name"
             android:targetActivity=".IntentDispatcher"
+            android:exported="true"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
