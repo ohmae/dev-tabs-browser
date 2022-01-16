@@ -43,13 +43,13 @@ android {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
-    implementation("androidx.appcompat:appcompat:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.browser:browser:1.4.0")
     implementation("androidx.webkit:webkit:1.4.0")
-    implementation("com.google.android.material:material:1.4.0")
+    implementation("com.google.android.material:material:1.5.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.7.3")
 }
