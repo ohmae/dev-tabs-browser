@@ -14,18 +14,38 @@
     <application
         android:name=".BrowserApplication"
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/full_backup_content"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         >
+        <activity
+            android:name=".IntentDispatcher"
+            android:configChanges="orientation|keyboard|keyboardHidden|smallestScreenSize"
+            android:theme="@style/AppTheme.Translucent"
+            />
+
+        <activity
+            android:name=".BrowserActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|smallestScreenSize"
+            android:launchMode="singleTask"
+            />
+        <activity
+            android:name=".CustomTabsActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|smallestScreenSize"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
         <activity-alias
             android:name=".EntryPoint"
+            android:exported="true"
             android:label="@string/app_name"
             android:targetActivity=".IntentDispatcher"
-            android:exported="true"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,23 +66,6 @@
             </intent-filter>
         </activity-alias>
 
-        <activity
-            android:name=".IntentDispatcher"
-            android:configChanges="orientation|keyboard|keyboardHidden|smallestScreenSize"
-            android:theme="@style/AppTheme.Translucent"
-            />
-        <activity
-            android:name=".BrowserActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden|smallestScreenSize"
-            android:launchMode="singleTask"
-            />
-        <activity
-            android:name=".CustomTabsActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden|smallestScreenSize"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-
         <service
             android:name=".CustomTabsConnectionService"
             android:exported="true"
@@ -73,5 +76,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>
