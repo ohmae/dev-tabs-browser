@@ -9,6 +9,7 @@ plugins {
 android {
     compileSdk = 31
 
+    namespace = "net.mm2d.customtabsbrowser"
     defaultConfig {
         applicationId = "net.mm2d.customtabsbrowser"
         minSdk = 21
@@ -49,9 +50,9 @@ dependencies {
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.browser:browser:1.4.0")
     implementation("androidx.webkit:webkit:1.4.0")
-    implementation("com.google.android.material:material:1.5.0")
+    implementation("com.google.android.material:material:1.6.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.robolectric:robolectric:4.7.3")
+    testImplementation("org.robolectric:robolectric:4.8.1")
 }
 
 fun isStable(version: String): Boolean {
