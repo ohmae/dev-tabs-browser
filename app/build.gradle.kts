@@ -17,6 +17,16 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+    buildTypes {
+        debug {
+            isDebuggable = true
+            isTestCoverageEnabled = true
+        }
+        release {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -27,14 +37,8 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    buildTypes {
-        getByName("debug") {
-            isDebuggable = true
-        }
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
+    lint {
+        abortOnError = true
     }
     testOptions {
         unitTests.isIncludeAndroidResources = true
@@ -44,13 +48,13 @@ android {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
-    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.browser:browser:1.4.0")
     implementation("androidx.webkit:webkit:1.4.0")
-    implementation("com.google.android.material:material:1.6.0")
+    implementation("com.google.android.material:material:1.6.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.8.1")
 }
