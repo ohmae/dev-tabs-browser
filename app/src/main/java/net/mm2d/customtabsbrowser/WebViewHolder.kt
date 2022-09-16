@@ -61,8 +61,6 @@ object WebViewHolder {
             it.loadWithOverviewMode = true
             it.databaseEnabled = true
             it.domStorageEnabled = true
-            it.setAppCachePath(File(context.cacheDir, "WebViewAppCache").absolutePath)
-            it.setAppCacheEnabled(true)
         }
         webView.webChromeClient = WebChromeClient()
         webView.webViewClient = WebViewClient()

@@ -291,7 +291,7 @@ class CustomTabsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        menu.findItem(R.id.action_overflow).icon.setTint(tintedColor)
+        menu.findItem(R.id.action_overflow).icon?.setTint(tintedColor)
         if (!reader.shouldShowShareMenuItem) {
             menu.removeItem(R.id.action_share)
         }
