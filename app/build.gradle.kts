@@ -53,8 +53,8 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.browser:browser:1.4.0")
-    implementation("androidx.webkit:webkit:1.5.0")
-    implementation("com.google.android.material:material:1.7.0")
+    implementation("androidx.webkit:webkit:1.6.0")
+    implementation("com.google.android.material:material:1.8.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.9.2")
 }
