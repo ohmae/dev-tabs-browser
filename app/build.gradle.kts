@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     namespace = "net.mm2d.customtabsbrowser"
     defaultConfig {
@@ -53,9 +53,9 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.3.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
     implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.browser:browser:1.5.0")
+    implementation("androidx.browser:browser:1.6.0")
     implementation("androidx.webkit:webkit:1.7.0")
     implementation("com.google.android.material:material:1.9.0")
     testImplementation("junit:junit:4.13.2")

@@ -37,12 +37,21 @@ class BrowserActivity : AppCompatActivity() {
         } else {
             WebViewHolder.createWebView(this)
         }
-        val url = intent.dataString ?: "https://cs.android.com/"
-        if (webView.url != url) {
-            webView.loadUrl(url)
+        if (savedInstanceState == null) {
+            val url = intent.dataString ?: "https://cs.android.com/"
+            if (webView.url != url) {
+                webView.loadUrl(url)
+            }
+        } else {
+            webView.restoreState(savedInstanceState)
         }
         webView.isFocusableInTouchMode = true
         WebViewNightMode.apply(this, webView)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        webView.saveState(outState)
     }
 
     override fun onNewIntent(intent: Intent) {

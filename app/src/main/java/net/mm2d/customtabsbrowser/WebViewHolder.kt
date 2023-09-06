@@ -15,7 +15,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.browser.customtabs.CustomTabsService
-import java.io.File
 import java.lang.ref.SoftReference
 
 @SuppressLint("StaticFieldLeak")
