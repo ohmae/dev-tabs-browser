@@ -139,21 +139,26 @@ class CustomTabsActivity : AppCompatActivity() {
         binding.appBar.setBackgroundColor(colorSchemeParams.toolbarColor)
         binding.progressBar.progressDrawable = ContextCompat.getDrawable(
             this,
-            if (shouldUseWhiteForeground) R.drawable.browser_progress_dark
-            else R.drawable.browser_progress
+            if (shouldUseWhiteForeground) {
+                R.drawable.browser_progress_dark
+            } else {
+                R.drawable.browser_progress
+            },
         )
         if (shouldUseWhiteForeground) {
             setForegroundColor(R.color.text_main_dark, R.color.text_sub_dark)
         } else {
             setForegroundColor(R.color.text_main, R.color.text_sub)
         }
-        binding.appBar.addOnOffsetChangedListener(OnOffsetChangedListener { _, offset ->
-            if (offset == 0) {
-                connection.onBottomBarScrollStateChanged(false)
-            } else if (offset == -binding.toolbar.height) {
-                connection.onBottomBarScrollStateChanged(true)
-            }
-        })
+        binding.appBar.addOnOffsetChangedListener(
+            OnOffsetChangedListener { _, offset ->
+                if (offset == 0) {
+                    connection.onBottomBarScrollStateChanged(false)
+                } else if (offset == -binding.toolbar.height) {
+                    connection.onBottomBarScrollStateChanged(true)
+                }
+            },
+        )
         binding.toolbar2.setBackgroundColor(colorSchemeParams.secondaryToolbarColor)
         binding.toolbar3.setBackgroundColor(colorSchemeParams.secondaryToolbarColor)
         AppCompatResources.getDrawable(this, R.drawable.ic_close)?.let {
@@ -168,7 +173,7 @@ class CustomTabsActivity : AppCompatActivity() {
         if (reader.enableUrlBarHiding) {
             (binding.toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
         }
     }
 
@@ -265,7 +270,7 @@ class CustomTabsActivity : AppCompatActivity() {
                 view: WebView?,
                 errorCode: Int,
                 description: String?,
-                failingUrl: String?
+                failingUrl: String?,
             ) {
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
             }
@@ -273,7 +278,7 @@ class CustomTabsActivity : AppCompatActivity() {
             override fun onReceivedSslError(
                 view: WebView?,
                 handler: SslErrorHandler?,
-                error: SslError?
+                error: SslError?,
             ) {
                 handler?.cancel()
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
@@ -300,7 +305,7 @@ class CustomTabsActivity : AppCompatActivity() {
                 R.id.overflow,
                 CUSTOM_MENU_ID_START + index,
                 CUSTOM_MENU_ORDER_START + index,
-                menuParams.title
+                menuParams.title,
             ).isVisible = false
         }
         return true
@@ -374,8 +379,10 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     override fun getPackageName(): String {
-        if (overridePackageName) return reader.clientPackageName
-            ?: super.getPackageName()
+        if (overridePackageName) {
+            return reader.clientPackageName
+                ?: super.getPackageName()
+        }
         return super.getPackageName()
     }
 

@@ -77,11 +77,11 @@ class CustomTabsIntentReader(intent: Intent) {
                 ?: SparseArray()
         lightColorSchemeParams = ColorSchemeParams.create(
             colorSchemeParamsArray.getOrDefault(COLOR_SCHEME_LIGHT, Bundle.EMPTY),
-            ColorSchemeParams.create(extras, ColorSchemeParams.LIGHT)
+            ColorSchemeParams.create(extras, ColorSchemeParams.LIGHT),
         )
         darkColorSchemeParams = ColorSchemeParams.create(
             colorSchemeParamsArray.getOrDefault(COLOR_SCHEME_DARK, Bundle.EMPTY),
-            ColorSchemeParams.create(extras, ColorSchemeParams.DARK)
+            ColorSchemeParams.create(extras, ColorSchemeParams.DARK),
         )
     }
 
@@ -90,7 +90,7 @@ class CustomTabsIntentReader(intent: Intent) {
 
     class MenuParams(
         val title: String,
-        val pendingIntent: PendingIntent?
+        val pendingIntent: PendingIntent?,
     )
 
     class ButtonParams(
@@ -98,24 +98,24 @@ class CustomTabsIntentReader(intent: Intent) {
         val icon: Bitmap?,
         val shouldTint: Boolean,
         val description: String,
-        val pendingIntent: PendingIntent?
+        val pendingIntent: PendingIntent?,
     )
 
     class ColorSchemeParams(
         val toolbarColor: Int,
         val secondaryToolbarColor: Int,
-        val navigationBarColor: Int
+        val navigationBarColor: Int,
     ) {
         companion object {
             val LIGHT = ColorSchemeParams(
                 DEFAULT_TOOLBAR_COLOR_LIGHT,
                 DEFAULT_TOOLBAR_COLOR_LIGHT,
-                DEFAULT_NAVIGATION_BAR_COLOR
+                DEFAULT_NAVIGATION_BAR_COLOR,
             )
             val DARK = ColorSchemeParams(
                 DEFAULT_TOOLBAR_COLOR_DARK,
                 DEFAULT_TOOLBAR_COLOR_DARK,
-                DEFAULT_NAVIGATION_BAR_COLOR
+                DEFAULT_NAVIGATION_BAR_COLOR,
             )
 
             fun create(bundle: Bundle, default: ColorSchemeParams): ColorSchemeParams {
@@ -124,7 +124,7 @@ class CustomTabsIntentReader(intent: Intent) {
                     toolbarColor,
                     bundle.getIntOrNull(EXTRA_SECONDARY_TOOLBAR_COLOR)
                         ?: if (bundle.containsKey(EXTRA_TOOLBAR_COLOR)) toolbarColor else default.secondaryToolbarColor,
-                    bundle.getIntSafely(EXTRA_NAVIGATION_BAR_COLOR, default.navigationBarColor)
+                    bundle.getIntSafely(EXTRA_NAVIGATION_BAR_COLOR, default.navigationBarColor),
                 )
             }
         }
@@ -159,7 +159,7 @@ class CustomTabsIntentReader(intent: Intent) {
 
         private fun makeToolbarButtonParamsList(
             extras: Bundle,
-            existActionButton: Boolean
+            existActionButton: Boolean,
         ): List<ButtonParams> {
             val idSet =
                 if (existActionButton) mutableSetOf(TOOLBAR_ACTION_BUTTON_ID) else mutableSetOf()
@@ -179,7 +179,7 @@ class CustomTabsIntentReader(intent: Intent) {
                 icon,
                 shouldTint,
                 bundle.getStringSafelyNonNull(KEY_DESCRIPTION),
-                bundle.getParcelableSafely(KEY_PENDING_INTENT)
+                bundle.getParcelableSafely(KEY_PENDING_INTENT),
             )
         }
     }

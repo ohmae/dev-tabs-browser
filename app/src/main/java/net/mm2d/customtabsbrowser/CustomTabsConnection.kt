@@ -16,7 +16,8 @@ class CustomTabsConnection(private val callback: CustomTabsCallback?) {
     fun onNavigationEvent(event: Int) {
         callback?.onNavigationEvent(
             event,
-            Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
+            Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) },
+        )
     }
 
     fun onBottomBarScrollStateChanged(hidden: Boolean) {
@@ -24,13 +25,15 @@ class CustomTabsConnection(private val callback: CustomTabsCallback?) {
         this.hidden = hidden
         callback?.extraCallback(
             BOTTOM_BAR_SCROLL_STATE_CALLBACK,
-            Bundle().also { it.putBoolean("hidden", hidden) })
+            Bundle().also { it.putBoolean("hidden", hidden) },
+        )
     }
 
     fun onOpenInBrowser() {
         callback?.extraCallback(
             OPEN_IN_BROWSER_CALLBACK,
-            Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) })
+            Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) },
+        )
     }
 
     companion object {

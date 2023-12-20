@@ -23,7 +23,8 @@ object WebViewNightMode {
         }
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
             WebSettingsCompat.setForceDarkStrategy(
-                webSettings, WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY
+                webSettings,
+                WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY,
             )
         }
     }

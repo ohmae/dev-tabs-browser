@@ -27,7 +27,7 @@ class CustomTabsConnectionService : CustomTabsService() {
         sessionToken: CustomTabsSessionToken,
         uri: Uri?,
         extras: Bundle?,
-        otherLikelyBundles: MutableList<Bundle>?
+        otherLikelyBundles: MutableList<Bundle>?,
     ): Boolean =
         handler.post {
             WebViewHolder.mayLaunchUrl(uri, otherLikelyBundles)
@@ -38,29 +38,29 @@ class CustomTabsConnectionService : CustomTabsService() {
         sessionToken: CustomTabsSessionToken,
         uri: Uri,
         purpose: Int,
-        extras: Bundle?
+        extras: Bundle?,
     ): Boolean = false
 
     override fun requestPostMessageChannel(
         sessionToken: CustomTabsSessionToken,
-        postMessageOrigin: Uri
+        postMessageOrigin: Uri,
     ): Boolean = false
 
     override fun postMessage(
         sessionToken: CustomTabsSessionToken,
         message: String,
-        extras: Bundle?
+        extras: Bundle?,
     ): Int = RESULT_FAILURE_DISALLOWED
 
     override fun validateRelationship(
         sessionToken: CustomTabsSessionToken,
         relation: Int,
         origin: Uri,
-        extras: Bundle?
+        extras: Bundle?,
     ): Boolean = false
 
     override fun updateVisuals(
         sessionToken: CustomTabsSessionToken,
-        bundle: Bundle?
+        bundle: Bundle?,
     ): Boolean = false
 }
