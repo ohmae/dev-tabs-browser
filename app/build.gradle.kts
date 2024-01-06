@@ -43,6 +43,7 @@ android {
     lint {
         abortOnError = true
     }
+    @Suppress("UnstableApiUsage")
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
@@ -103,7 +104,7 @@ tasks.register<JavaExec>("ktlintFormat") {
 }
 
 fun isStable(version: String): Boolean {
-    val versionUpperCase = version.toUpperCase()
+    val versionUpperCase = version.uppercase()
     val hasStableKeyword = listOf("RELEASE", "FINAL", "GA").any { versionUpperCase.contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     return hasStableKeyword || regex.matches(version)
