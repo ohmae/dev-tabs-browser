@@ -49,7 +49,7 @@ android {
     }
 }
 
-val ktlint by configurations.creating
+val ktlint: Configuration by configurations.creating
 
 dependencies {
     implementation(kotlin("stdlib"))

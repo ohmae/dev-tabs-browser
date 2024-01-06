@@ -61,8 +61,7 @@
             android:orientation="horizontal"
             android:visibility="gone"
             app:layout_behavior="net.mm2d.customtabsbrowser.BottomBarBehavior"
-            >
-        </LinearLayout>
+            ></LinearLayout>
 
         <FrameLayout
             android:id="@+id/web_view_container"
@@ -80,6 +79,5 @@
         android:elevation="8dp"
         android:orientation="horizontal"
         android:visibility="gone"
-        >
-    </LinearLayout>
+        ></LinearLayout>
 </LinearLayout>

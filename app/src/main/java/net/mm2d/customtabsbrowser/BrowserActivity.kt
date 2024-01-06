@@ -14,11 +14,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.webkit.WebViewClientCompat
 import net.mm2d.customtabsbrowser.databinding.ActivityBrowserBinding
@@ -26,6 +28,12 @@ import net.mm2d.customtabsbrowser.databinding.ActivityBrowserBinding
 class BrowserActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var binding: ActivityBrowserBinding
+    private val onBackPressedCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                webView.goBack()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +54,7 @@ class BrowserActivity : AppCompatActivity() {
             webView.restoreState(savedInstanceState)
         }
         webView.isFocusableInTouchMode = true
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         WebViewNightMode.apply(this, webView)
     }
 
@@ -96,6 +105,10 @@ class BrowserActivity : AppCompatActivity() {
             }
         }
         webView.webViewClient = object : WebViewClient() {
+            override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
+                onBackPressedCallback.isEnabled = webView.canGoBack()
+            }
+
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 binding.progressBar.progress = 0
                 binding.progressBar.visibility = View.VISIBLE
@@ -106,14 +119,6 @@ class BrowserActivity : AppCompatActivity() {
                 binding.progressBar.visibility = View.INVISIBLE
             }
         }
-    }
-
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-            return
-        }
-        super.onBackPressed()
     }
 
     companion object {
@@ -127,6 +132,7 @@ class BrowserActivity : AppCompatActivity() {
             try {
                 context.startActivity(intent)
             } catch (e: ActivityNotFoundException) {
+                Log.w("CustomTabsBrowser", "ActivityNotFoundException", e)
             }
         }
     }
