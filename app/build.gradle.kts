@@ -49,8 +49,6 @@ android {
     }
 }
 
-val ktlint: Configuration by configurations.creating
-
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
@@ -63,44 +61,6 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.11.1")
-
-    ktlint("com.pinterest.ktlint:ktlint-cli:1.1.0") {
-        attributes {
-            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
-        }
-    }
-}
-
-val ktlintCheck by tasks.registering(JavaExec::class) {
-    group = LifecycleBasePlugin.VERIFICATION_GROUP
-    description = "Check Kotlin code style"
-    classpath = ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    args(
-        "**/src/**/*.kt",
-        "**.kts",
-        "!**/build/**",
-    )
-    isIgnoreExitValue = true
-}
-
-tasks.named<DefaultTask>("check") {
-    dependsOn(ktlintCheck)
-}
-
-tasks.register<JavaExec>("ktlintFormat") {
-    group = LifecycleBasePlugin.VERIFICATION_GROUP
-    description = "Check Kotlin code style and format"
-    classpath = ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
-    args(
-        "-F",
-        "**/src/**/*.kt",
-        "**.kts",
-        "!**/build/**",
-    )
-    isIgnoreExitValue = true
 }
 
 fun isStable(version: String): Boolean {
