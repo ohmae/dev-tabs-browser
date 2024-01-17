@@ -10,6 +10,7 @@ package net.mm2d.customtabsbrowser.extension
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.SparseArray
+import androidx.core.os.BundleCompat
 
 internal fun Bundle.getBooleanSafely(key: String, default: Boolean = false): Boolean =
     runCatching { getBoolean(key, default) }.getOrDefault(default)
@@ -32,11 +33,20 @@ internal fun Bundle.getStringSafelyNonNull(key: String, default: String = ""): S
 internal fun Bundle.getBundleSafely(key: String): Bundle? =
     runCatching { getBundle(key) }.getOrNull()
 
-internal fun <T : Parcelable> Bundle.getParcelableSafely(key: String, default: T? = null): T? =
-    runCatching { getParcelable<T>(key) }.getOrNull() ?: default
+internal inline
+fun <reified T : Parcelable> Bundle.getParcelableSafely(key: String, default: T? = null): T? =
+    runCatching {
+        BundleCompat.getParcelable(this, key, T::class.java)
+    }.getOrNull() ?: default
 
-internal fun <T : Parcelable> Bundle.getParcelableArrayListSafely(key: String): ArrayList<T>? =
-    runCatching { getParcelableArrayList<T>(key) }.getOrNull()
+internal inline
+fun <reified T : Parcelable> Bundle.getParcelableArrayListSafely(key: String): ArrayList<T>? =
+    runCatching {
+        BundleCompat.getParcelableArrayList<T>(this, key, T::class.java)
+    }.getOrNull()
 
-internal fun <T : Parcelable> Bundle.getSparseParcelableArraySafely(key: String?): SparseArray<T>? =
-    runCatching { getSparseParcelableArray<T>(key) }.getOrNull()
+internal inline
+fun <reified T : Parcelable> Bundle.getSparseParcelableArraySafely(key: String?): SparseArray<T>? =
+    runCatching {
+        BundleCompat.getSparseParcelableArray<T>(this, key, T::class.java)
+    }.getOrNull()

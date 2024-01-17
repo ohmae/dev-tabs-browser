@@ -26,14 +26,17 @@ class CustomTabsIntentReader(intent: Intent) {
     private val extras: Bundle = intent.extras ?: Bundle.EMPTY
     val shouldShowTitle: Boolean =
         extras.getIntSafely(EXTRA_TITLE_VISIBILITY_STATE, NO_TITLE) == SHOW_PAGE_TITLE
-    val enableUrlBarHiding: Boolean = extras.getBooleanSafely(EXTRA_ENABLE_URLBAR_HIDING)
+    val enableUrlBarHiding: Boolean =
+        extras.getBooleanSafely(EXTRA_ENABLE_URLBAR_HIDING)
     val shouldShowShareMenuItem: Boolean =
         extras.getBooleanSafely(EXTRA_DEFAULT_SHARE_MENU_ITEM)
     private val lightColorSchemeParams: ColorSchemeParams
     private val darkColorSchemeParams: ColorSchemeParams
 
-    val colorScheme: Int = extras.getIntSafely(EXTRA_COLOR_SCHEME, COLOR_SCHEME_SYSTEM)
-    val closeIcon: Bitmap? = extras.getParcelableSafely(EXTRA_CLOSE_BUTTON_ICON)
+    val colorScheme: Int =
+        extras.getIntSafely(EXTRA_COLOR_SCHEME, COLOR_SCHEME_SYSTEM)
+    val closeIcon: Bitmap? =
+        extras.getParcelableSafely(EXTRA_CLOSE_BUTTON_ICON)
     val callback: CustomTabsCallback? = try {
         CustomTabsSessionToken.getSessionTokenFromIntent(intent)?.callback
     } catch (e: Exception) {
@@ -46,7 +49,8 @@ class CustomTabsIntentReader(intent: Intent) {
     val menuParamsList: List<MenuParams> = makeMenuParamsList(extras)
     val actionButtonParams: ButtonParams?
     val toolbarButtonParamsList: List<ButtonParams>
-    val remoteViews: RemoteViews? = extras.getParcelableSafely(EXTRA_REMOTEVIEWS)
+    val remoteViews: RemoteViews? =
+        extras.getParcelableSafely(EXTRA_REMOTEVIEWS)
     val remoteViewsClickableIDs: IntArray? =
         extras.getIntArraySafely(EXTRA_REMOTEVIEWS_VIEW_IDS)
     val remoteViewsPendingIntent: PendingIntent? =
