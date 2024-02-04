@@ -12,15 +12,51 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.SparseArray
 import android.widget.RemoteViews
 import androidx.browser.customtabs.CustomTabsCallback
-import androidx.browser.customtabs.CustomTabsIntent.*
+import androidx.browser.customtabs.CustomTabsIntent.COLOR_SCHEME_DARK
+import androidx.browser.customtabs.CustomTabsIntent.COLOR_SCHEME_LIGHT
+import androidx.browser.customtabs.CustomTabsIntent.COLOR_SCHEME_SYSTEM
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_ACTION_BUTTON_BUNDLE
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_CLOSE_BUTTON_ICON
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_COLOR_SCHEME
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_COLOR_SCHEME_PARAMS
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_DEFAULT_SHARE_MENU_ITEM
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_ENABLE_URLBAR_HIDING
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_EXIT_ANIMATION_BUNDLE
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_MENU_ITEMS
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_NAVIGATION_BAR_COLOR
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_REMOTEVIEWS
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_REMOTEVIEWS_PENDINGINTENT
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_REMOTEVIEWS_VIEW_IDS
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_SECONDARY_TOOLBAR_COLOR
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_TINT_ACTION_BUTTON
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_TITLE_VISIBILITY_STATE
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_TOOLBAR_COLOR
+import androidx.browser.customtabs.CustomTabsIntent.EXTRA_TOOLBAR_ITEMS
+import androidx.browser.customtabs.CustomTabsIntent.KEY_DESCRIPTION
+import androidx.browser.customtabs.CustomTabsIntent.KEY_ICON
+import androidx.browser.customtabs.CustomTabsIntent.KEY_ID
+import androidx.browser.customtabs.CustomTabsIntent.KEY_MENU_ITEM_TITLE
+import androidx.browser.customtabs.CustomTabsIntent.KEY_PENDING_INTENT
+import androidx.browser.customtabs.CustomTabsIntent.NO_TITLE
+import androidx.browser.customtabs.CustomTabsIntent.SHOW_PAGE_TITLE
+import androidx.browser.customtabs.CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID
 import androidx.browser.customtabs.CustomTabsSessionToken
 import androidx.core.util.getOrDefault
-import net.mm2d.customtabsbrowser.extension.*
+import net.mm2d.customtabsbrowser.extension.getBooleanSafely
+import net.mm2d.customtabsbrowser.extension.getBundleSafely
+import net.mm2d.customtabsbrowser.extension.getIntArraySafely
+import net.mm2d.customtabsbrowser.extension.getIntOrNull
+import net.mm2d.customtabsbrowser.extension.getIntSafely
+import net.mm2d.customtabsbrowser.extension.getParcelableArrayListSafely
+import net.mm2d.customtabsbrowser.extension.getParcelableSafely
+import net.mm2d.customtabsbrowser.extension.getSparseParcelableArraySafely
+import net.mm2d.customtabsbrowser.extension.getStringSafely
+import net.mm2d.customtabsbrowser.extension.getStringSafelyNonNull
+import net.mm2d.customtabsbrowser.extension.isNightMode
 
 class CustomTabsIntentReader(intent: Intent) {
     private val extras: Bundle = intent.extras ?: Bundle.EMPTY
@@ -135,11 +171,10 @@ class CustomTabsIntentReader(intent: Intent) {
     }
 
     companion object {
-        private val ANIMATION_BUNDLE_PREFIX =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) "android:activity." else "android:"
-        private val BUNDLE_PACKAGE_NAME = ANIMATION_BUNDLE_PREFIX + "packageName"
-        private val BUNDLE_ENTER_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animEnterRes"
-        private val BUNDLE_EXIT_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animExitRes"
+        private const val ANIMATION_BUNDLE_PREFIX = "android:activity."
+        private const val BUNDLE_PACKAGE_NAME = ANIMATION_BUNDLE_PREFIX + "packageName"
+        private const val BUNDLE_ENTER_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animEnterRes"
+        private const val BUNDLE_EXIT_ANIMATION_RESOURCE = ANIMATION_BUNDLE_PREFIX + "animExitRes"
         private const val DEFAULT_TOOLBAR_COLOR_LIGHT = Color.WHITE
         private const val DEFAULT_TOOLBAR_COLOR_DARK = Color.BLACK
         private const val DEFAULT_NAVIGATION_BAR_COLOR = Color.BLACK

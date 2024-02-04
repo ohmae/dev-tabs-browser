@@ -15,13 +15,16 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.net.http.SslError
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.*
+import android.webkit.SslErrorHandler
+import android.webkit.URLUtil
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +36,6 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.webkit.WebViewClientCompat
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
 import net.mm2d.customtabsbrowser.databinding.ActivityCustomTabsBinding
 import net.mm2d.customtabsbrowser.extension.shouldUseWhiteForeground
@@ -126,14 +128,12 @@ class CustomTabsActivity : AppCompatActivity() {
     private fun customUi() {
         val colorSchemeParams = reader.getColorSchemeParams(this)
         val shouldUseWhiteForeground = colorSchemeParams.toolbarColor.shouldUseWhiteForeground()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.statusBarColor = colorSchemeParams.toolbarColor
-            val decorView = window.decorView
-            decorView.systemUiVisibility = if (shouldUseWhiteForeground) {
-                decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-            } else {
-                decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
+        window.statusBarColor = colorSchemeParams.toolbarColor
+        val decorView = window.decorView
+        decorView.systemUiVisibility = if (shouldUseWhiteForeground) {
+            decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        } else {
+            decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         binding.toolbar.setBackgroundColor(colorSchemeParams.toolbarColor)
         binding.appBar.setBackgroundColor(colorSchemeParams.toolbarColor)
@@ -150,15 +150,13 @@ class CustomTabsActivity : AppCompatActivity() {
         } else {
             setForegroundColor(R.color.text_main, R.color.text_sub)
         }
-        binding.appBar.addOnOffsetChangedListener(
-            OnOffsetChangedListener { _, offset ->
-                if (offset == 0) {
-                    connection.onBottomBarScrollStateChanged(false)
-                } else if (offset == -binding.toolbar.height) {
-                    connection.onBottomBarScrollStateChanged(true)
-                }
-            },
-        )
+        binding.appBar.addOnOffsetChangedListener { _, offset ->
+            if (offset == 0) {
+                connection.onBottomBarScrollStateChanged(false)
+            } else if (offset == -binding.toolbar.height) {
+                connection.onBottomBarScrollStateChanged(true)
+            }
+        }
         binding.toolbar2.setBackgroundColor(colorSchemeParams.secondaryToolbarColor)
         binding.toolbar3.setBackgroundColor(colorSchemeParams.secondaryToolbarColor)
         AppCompatResources.getDrawable(this, R.drawable.ic_close)?.let {

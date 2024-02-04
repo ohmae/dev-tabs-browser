@@ -12,7 +12,7 @@ android {
     namespace = "net.mm2d.customtabsbrowser"
     defaultConfig {
         applicationId = "net.mm2d.customtabsbrowser"
-        minSdk = 21
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -38,6 +38,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
     lint {

@@ -30,7 +30,7 @@ class IntentDispatcher : AppCompatActivity() {
         launchIntent.setClass(this, clazz)
         try {
             startActivity(launchIntent)
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
         }
     }
 

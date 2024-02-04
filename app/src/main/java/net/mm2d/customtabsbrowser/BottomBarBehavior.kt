@@ -13,7 +13,6 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 
-@Suppress("unused")
 class BottomBarBehavior(
     context: Context,
     attrs: AttributeSet?,

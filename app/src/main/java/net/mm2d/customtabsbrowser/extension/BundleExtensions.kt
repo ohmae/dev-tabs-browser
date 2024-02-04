@@ -33,20 +33,11 @@ internal fun Bundle.getStringSafelyNonNull(key: String, default: String = ""): S
 internal fun Bundle.getBundleSafely(key: String): Bundle? =
     runCatching { getBundle(key) }.getOrNull()
 
-internal inline
-fun <reified T : Parcelable> Bundle.getParcelableSafely(key: String, default: T? = null): T? =
-    runCatching {
-        BundleCompat.getParcelable(this, key, T::class.java)
-    }.getOrNull() ?: default
+internal inline fun <reified T : Parcelable> Bundle.getParcelableSafely(key: String, default: T? = null): T? =
+    runCatching { BundleCompat.getParcelable(this, key, T::class.java) }.getOrNull() ?: default
 
-internal inline
-fun <reified T : Parcelable> Bundle.getParcelableArrayListSafely(key: String): ArrayList<T>? =
-    runCatching {
-        BundleCompat.getParcelableArrayList<T>(this, key, T::class.java)
-    }.getOrNull()
+internal inline fun <reified T : Parcelable> Bundle.getParcelableArrayListSafely(key: String): ArrayList<T>? =
+    runCatching { BundleCompat.getParcelableArrayList(this, key, T::class.java) }.getOrNull()
 
-internal inline
-fun <reified T : Parcelable> Bundle.getSparseParcelableArraySafely(key: String?): SparseArray<T>? =
-    runCatching {
-        BundleCompat.getSparseParcelableArray<T>(this, key, T::class.java)
-    }.getOrNull()
+internal inline fun <reified T : Parcelable> Bundle.getSparseParcelableArraySafely(key: String?): SparseArray<T>? =
+    runCatching { BundleCompat.getSparseParcelableArray(this, key, T::class.java) }.getOrNull()
