@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-package net.mm2d.customtabsbrowser.extension
+package net.mm2d.dev.tabs.browser.extension
 
 import android.graphics.Color
 import kotlin.math.pow

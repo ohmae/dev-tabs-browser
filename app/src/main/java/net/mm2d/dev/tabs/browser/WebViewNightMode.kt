@@ -5,13 +5,13 @@
  * http://opensource.org/licenses/MIT
  */
 
-package net.mm2d.customtabsbrowser
+package net.mm2d.dev.tabs.browser
 
 import android.app.Activity
 import android.webkit.WebView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import net.mm2d.customtabsbrowser.extension.isNightMode
+import net.mm2d.dev.tabs.browser.extension.isNightMode
 
 object WebViewNightMode {
     fun apply(activity: Activity, webView: WebView) {

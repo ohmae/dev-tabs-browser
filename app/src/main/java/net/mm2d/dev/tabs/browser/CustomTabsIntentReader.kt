@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-package net.mm2d.customtabsbrowser
+package net.mm2d.dev.tabs.browser
 
 import android.app.Activity
 import android.app.PendingIntent
@@ -46,17 +46,17 @@ import androidx.browser.customtabs.CustomTabsIntent.SHOW_PAGE_TITLE
 import androidx.browser.customtabs.CustomTabsIntent.TOOLBAR_ACTION_BUTTON_ID
 import androidx.browser.customtabs.CustomTabsSessionToken
 import androidx.core.util.getOrDefault
-import net.mm2d.customtabsbrowser.extension.getBooleanSafely
-import net.mm2d.customtabsbrowser.extension.getBundleSafely
-import net.mm2d.customtabsbrowser.extension.getIntArraySafely
-import net.mm2d.customtabsbrowser.extension.getIntOrNull
-import net.mm2d.customtabsbrowser.extension.getIntSafely
-import net.mm2d.customtabsbrowser.extension.getParcelableArrayListSafely
-import net.mm2d.customtabsbrowser.extension.getParcelableSafely
-import net.mm2d.customtabsbrowser.extension.getSparseParcelableArraySafely
-import net.mm2d.customtabsbrowser.extension.getStringSafely
-import net.mm2d.customtabsbrowser.extension.getStringSafelyNonNull
-import net.mm2d.customtabsbrowser.extension.isNightMode
+import net.mm2d.dev.tabs.browser.extension.getBooleanSafely
+import net.mm2d.dev.tabs.browser.extension.getBundleSafely
+import net.mm2d.dev.tabs.browser.extension.getIntArraySafely
+import net.mm2d.dev.tabs.browser.extension.getIntOrNull
+import net.mm2d.dev.tabs.browser.extension.getIntSafely
+import net.mm2d.dev.tabs.browser.extension.getParcelableArrayListSafely
+import net.mm2d.dev.tabs.browser.extension.getParcelableSafely
+import net.mm2d.dev.tabs.browser.extension.getSparseParcelableArraySafely
+import net.mm2d.dev.tabs.browser.extension.getStringSafely
+import net.mm2d.dev.tabs.browser.extension.getStringSafelyNonNull
+import net.mm2d.dev.tabs.browser.extension.isNightMode
 
 class CustomTabsIntentReader(intent: Intent) {
     private val extras: Bundle = intent.extras ?: Bundle.EMPTY

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-package net.mm2d.customtabsbrowser
+package net.mm2d.dev.tabs.browser
 
 import android.app.Activity
 import android.view.Gravity

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-package net.mm2d.customtabsbrowser
+package net.mm2d.dev.tabs.browser
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
@@ -23,7 +23,7 @@ import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.webkit.WebViewClientCompat
-import net.mm2d.customtabsbrowser.databinding.ActivityBrowserBinding
+import net.mm2d.dev.tabs.browser.databinding.ActivityBrowserBinding
 
 class BrowserActivity : AppCompatActivity() {
     private lateinit var webView: WebView

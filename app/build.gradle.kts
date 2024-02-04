@@ -9,9 +9,9 @@ plugins {
 android {
     compileSdk = 34
 
-    namespace = "net.mm2d.customtabsbrowser"
+    namespace = "net.mm2d.dev.tabs.browser"
     defaultConfig {
-        applicationId = "net.mm2d.customtabsbrowser"
+        applicationId = "net.mm2d.dev.tabs.browser"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

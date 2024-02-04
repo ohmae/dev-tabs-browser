@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-package net.mm2d.customtabsbrowser
+package net.mm2d.dev.tabs.browser
 
 import android.os.Bundle
 import android.os.SystemClock

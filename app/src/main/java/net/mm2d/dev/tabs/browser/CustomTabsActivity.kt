@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-package net.mm2d.customtabsbrowser
+package net.mm2d.dev.tabs.browser
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -36,9 +36,9 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.webkit.WebViewClientCompat
 import com.google.android.material.appbar.AppBarLayout
-import net.mm2d.customtabsbrowser.CustomTabsIntentReader.ButtonParams
-import net.mm2d.customtabsbrowser.databinding.ActivityCustomTabsBinding
-import net.mm2d.customtabsbrowser.extension.shouldUseWhiteForeground
+import net.mm2d.dev.tabs.browser.CustomTabsIntentReader.ButtonParams
+import net.mm2d.dev.tabs.browser.databinding.ActivityCustomTabsBinding
+import net.mm2d.dev.tabs.browser.extension.shouldUseWhiteForeground
 
 class CustomTabsActivity : AppCompatActivity() {
     private lateinit var popupMenu: CustomOptionsMenuHelper
@@ -171,7 +171,7 @@ class CustomTabsActivity : AppCompatActivity() {
         if (reader.enableUrlBarHiding) {
             (binding.toolbar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
         }
     }
 
