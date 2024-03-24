@@ -72,7 +72,6 @@ class CustomTabsActivity : AppCompatActivity() {
             webView.loadUrl(url)
         }
         webView.isFocusableInTouchMode = true
-        WebViewNightMode.apply(this, webView)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -329,9 +328,8 @@ class CustomTabsActivity : AppCompatActivity() {
     }
 
     private fun onSelectCustomMenu(index: Int) {
-        try {
+        runCatching {
             reader.menuParamsList[index].pendingIntent?.send(this, 0, null)
-        } catch (ignored: Throwable) {
         }
     }
 
@@ -340,9 +338,8 @@ class CustomTabsActivity : AppCompatActivity() {
             it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, id)
             it.data = Uri.parse(webView.url)
         }
-        try {
+        runCatching {
             pendingIntent.send(this, 0, addedIntent)
-        } catch (ignored: Throwable) {
         }
     }
 
@@ -350,9 +347,8 @@ class CustomTabsActivity : AppCompatActivity() {
         val addedIntent = Intent().also {
             it.data = Uri.parse(webView.url)
         }
-        try {
+        runCatching {
             pendingIntent.send(this, 0, addedIntent)
-        } catch (ignored: Throwable) {
         }
     }
 

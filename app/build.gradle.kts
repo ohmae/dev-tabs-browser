@@ -1,9 +1,9 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("com.github.ben-manes.versions")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.gradleVersions)
 }
 
 android {
@@ -27,15 +27,12 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-    kotlin {
-        jvmToolchain(11)
-    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         buildConfig = true
@@ -51,17 +48,24 @@ android {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation(kotlin("reflect"))
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.browser:browser:1.7.0")
-    implementation("androidx.webkit:webkit:1.10.0")
-    implementation("com.google.android.material:material:1.11.0")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.robolectric:robolectric:4.11.1")
+    implementation(libs.kotlinStdlib)
+    implementation(libs.kotlinReflect)
+    implementation(libs.androidxAppCompat)
+    implementation(libs.androidxConstraintLayout)
+    implementation(libs.androidxRecyclerView)
+    implementation(libs.androidxCore)
+    implementation(libs.androidxBrowser)
+    implementation(libs.androidxWebkit)
+    implementation(libs.material)
+
+    debugImplementation(libs.leakcanary)
+    debugImplementation(libs.bundles.flipper)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidxJunit)
 }
 
 fun isStable(version: String): Boolean {

@@ -7,7 +7,6 @@
 
 package net.mm2d.dev.tabs.browser
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -28,9 +27,8 @@ class IntentDispatcher : AppCompatActivity() {
             BrowserActivity::class.java
         }
         launchIntent.setClass(this, clazz)
-        try {
+        runCatching {
             startActivity(launchIntent)
-        } catch (_: ActivityNotFoundException) {
         }
     }
 

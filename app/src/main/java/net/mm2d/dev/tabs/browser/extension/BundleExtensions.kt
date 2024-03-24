@@ -35,7 +35,7 @@ internal fun Bundle.getBundleSafely(key: String): Bundle? =
 
 internal inline fun <reified T : Parcelable> Bundle.getParcelableSafely(
     key: String,
-    default: T? = null
+    default: T? = null,
 ): T? =
     runCatching { BundleCompat.getParcelable(this, key, T::class.java) }.getOrNull() ?: default
 

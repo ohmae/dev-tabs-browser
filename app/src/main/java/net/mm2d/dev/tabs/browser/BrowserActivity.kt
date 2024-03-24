@@ -55,7 +55,6 @@ class BrowserActivity : AppCompatActivity() {
         }
         webView.isFocusableInTouchMode = true
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
-        WebViewNightMode.apply(this, webView)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

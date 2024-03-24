@@ -15,6 +15,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.browser.customtabs.CustomTabsService
+import androidx.core.os.BundleCompat
 import java.lang.ref.SoftReference
 
 @SuppressLint("StaticFieldLeak")
@@ -76,7 +77,10 @@ object WebViewHolder {
             webView.loadUrl(uri.toString())
         }
         val urlList = otherLikelyBundles
-            ?.mapNotNull { it.getParcelable<Uri>(CustomTabsService.KEY_URL)?.toString() }
+            ?.mapNotNull {
+                BundleCompat.getParcelable(it, CustomTabsService.KEY_URL, Uri::class.java)
+                    ?.toString()
+            }
         if (urlList.isNullOrEmpty()) return
         var index = 0
         backgroundWebViewReference = createWebView(webView.context).let {
