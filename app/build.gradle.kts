@@ -8,13 +8,13 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
 
     namespace = "net.mm2d.dev.tabs.browser"
     defaultConfig {
         applicationId = "net.mm2d.dev.tabs.browser"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -36,6 +36,7 @@ android {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_1_8
         }
+        jvmToolchain(17)
     }
     buildFeatures {
         buildConfig = true
