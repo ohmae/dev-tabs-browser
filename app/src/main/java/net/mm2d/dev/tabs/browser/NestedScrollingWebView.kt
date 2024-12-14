@@ -54,7 +54,9 @@ class NestedScrollingWebView
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
+    override fun onTouchEvent(
+        event: MotionEvent,
+    ): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> startY = event.rawY
             MotionEvent.ACTION_MOVE -> onTouchMove(event)
@@ -66,7 +68,9 @@ class NestedScrollingWebView
         return super.onTouchEvent(event)
     }
 
-    private fun onTouchMove(event: MotionEvent) {
+    private fun onTouchMove(
+        event: MotionEvent,
+    ) {
         if (event.pointerCount != 1) {
             return
         }
@@ -92,14 +96,17 @@ class NestedScrollingWebView
         appBar.setExpanded(appBar.bottom > appBar.height / 2)
     }
 
-    override fun setNestedScrollingEnabled(enabled: Boolean) {
+    override fun setNestedScrollingEnabled(
+        enabled: Boolean,
+    ) {
         helper.isNestedScrollingEnabled = enabled
     }
 
-    override fun isNestedScrollingEnabled(): Boolean =
-        helper.isNestedScrollingEnabled
+    override fun isNestedScrollingEnabled(): Boolean = helper.isNestedScrollingEnabled
 
-    override fun startNestedScroll(axes: Int): Boolean {
+    override fun startNestedScroll(
+        axes: Int,
+    ): Boolean {
         behavior?.scrollByUser = true
         return helper.startNestedScroll(axes)
     }
@@ -109,8 +116,7 @@ class NestedScrollingWebView
         helper.stopNestedScroll()
     }
 
-    override fun hasNestedScrollingParent(): Boolean =
-        helper.hasNestedScrollingParent()
+    override fun hasNestedScrollingParent(): Boolean = helper.hasNestedScrollingParent()
 
     override fun dispatchNestedScroll(
         dxConsumed: Int,
@@ -118,13 +124,14 @@ class NestedScrollingWebView
         dxUnconsumed: Int,
         dyUnconsumed: Int,
         offsetInWindow: IntArray?,
-    ): Boolean = helper.dispatchNestedScroll(
-        dxConsumed,
-        dyConsumed,
-        dxUnconsumed,
-        dyUnconsumed,
-        offsetInWindow,
-    )
+    ): Boolean =
+        helper.dispatchNestedScroll(
+            dxConsumed,
+            dyConsumed,
+            dxUnconsumed,
+            dyUnconsumed,
+            offsetInWindow,
+        )
 
     override fun dispatchNestedPreScroll(
         dx: Int,
@@ -139,8 +146,10 @@ class NestedScrollingWebView
         consumed: Boolean,
     ): Boolean = helper.dispatchNestedFling(velocityX, velocityY, consumed)
 
-    override fun dispatchNestedPreFling(velocityX: Float, velocityY: Float): Boolean =
-        helper.dispatchNestedPreFling(velocityX, velocityY)
+    override fun dispatchNestedPreFling(
+        velocityX: Float,
+        velocityY: Float,
+    ): Boolean = helper.dispatchNestedPreFling(velocityX, velocityY)
 
     class Behavior(
         context: Context,

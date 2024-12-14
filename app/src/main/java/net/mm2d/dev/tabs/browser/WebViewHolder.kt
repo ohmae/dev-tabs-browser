@@ -31,18 +31,24 @@ object WebViewHolder {
             webViewReference = null
         }
 
-    fun setBrowserWebView(view: WebView) {
+    fun setBrowserWebView(
+        view: WebView,
+    ) {
         browserWebViewReference = SoftReference(view)
     }
 
-    fun getBrowserWebView(context: Context): WebView =
+    fun getBrowserWebView(
+        context: Context,
+    ): WebView =
         try {
             browserWebViewReference?.get() ?: createWebView(context)
         } finally {
             browserWebViewReference = null
         }
 
-    private fun ensureWebView(context: Context): WebView {
+    private fun ensureWebView(
+        context: Context,
+    ): WebView {
         webViewReference?.get()?.let { return it }
         return createWebView(context).also {
             webViewReference = SoftReference(it)
@@ -50,7 +56,9 @@ object WebViewHolder {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    fun createWebView(context: Context): WebView {
+    fun createWebView(
+        context: Context,
+    ): WebView {
         val webView = NestedScrollingWebView(context.applicationContext)
         webView.settings.also {
             it.javaScriptEnabled = true
@@ -67,11 +75,16 @@ object WebViewHolder {
         return webView
     }
 
-    fun warmup(context: Context) {
+    fun warmup(
+        context: Context,
+    ) {
         ensureWebView(context)
     }
 
-    fun mayLaunchUrl(uri: Uri?, otherLikelyBundles: List<Bundle>?) {
+    fun mayLaunchUrl(
+        uri: Uri?,
+        otherLikelyBundles: List<Bundle>?,
+    ) {
         val webView = webViewReference?.get() ?: return
         uri?.let {
             webView.loadUrl(uri.toString())
@@ -85,7 +98,10 @@ object WebViewHolder {
         var index = 0
         backgroundWebViewReference = createWebView(webView.context).let {
             it.webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
+                override fun onPageFinished(
+                    view: WebView?,
+                    url: String?,
+                ) {
                     if (++index < urlList.size) {
                         backgroundWebViewReference?.get()?.loadUrl(urlList[index])
                     } else {

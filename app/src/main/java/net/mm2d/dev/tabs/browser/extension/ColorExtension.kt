@@ -10,11 +10,13 @@ package net.mm2d.dev.tabs.browser.extension
 import android.graphics.Color
 import kotlin.math.pow
 
-internal fun Int.shouldUseWhiteForeground(): Boolean =
-    calculateContrast(this, Color.WHITE) >= 3
+internal fun Int.shouldUseWhiteForeground(): Boolean = calculateContrast(this, Color.WHITE) >= 3
 
 // https://www.w3.org/TR/WCAG20/#contrast-ratiodef
-private fun calculateContrast(color1: Int, color2: Int): Float {
+private fun calculateContrast(
+    color1: Int,
+    color2: Int,
+): Float {
     val l1 = color1.calculateRelativeLuminance()
     val l2 = color2.calculateRelativeLuminance()
     return if (l1 > l2) {
@@ -35,5 +37,4 @@ private fun Int.calculateRelativeLuminance(): Float {
 private fun Int.red(): Float = Color.red(this) / 255f
 private fun Int.green(): Float = Color.green(this) / 255f
 private fun Int.blue(): Float = Color.blue(this) / 255f
-private fun Float.normalize(): Float =
-    if (this < 0.03928f) this / 12.92f else ((this + 0.055f) / 1.055f).pow(2.4f)
+private fun Float.normalize(): Float = if (this < 0.03928f) this / 12.92f else ((this + 0.055f) / 1.055f).pow(2.4f)

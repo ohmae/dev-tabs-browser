@@ -35,7 +35,9 @@ class BrowserActivity : AppCompatActivity() {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+    ) {
         super.onCreate(savedInstanceState)
         binding = ActivityBrowserBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -57,12 +59,16 @@ class BrowserActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
+    override fun onSaveInstanceState(
+        outState: Bundle,
+    ) {
         super.onSaveInstanceState(outState)
         webView.saveState(outState)
     }
 
-    override fun onNewIntent(intent: Intent) {
+    override fun onNewIntent(
+        intent: Intent,
+    ) {
         super.onNewIntent(intent)
         setIntent(intent)
         intent.dataString?.let {
@@ -95,26 +101,43 @@ class BrowserActivity : AppCompatActivity() {
             if (it.isNotEmpty()) supportActionBar?.title = it
         }
         webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+            override fun onProgressChanged(
+                view: WebView?,
+                newProgress: Int,
+            ) {
                 binding.progressBar.progress = newProgress
             }
 
-            override fun onReceivedTitle(view: WebView?, title: String?) {
+            override fun onReceivedTitle(
+                view: WebView?,
+                title: String?,
+            ) {
                 supportActionBar?.title = title
             }
         }
         webView.webViewClient = object : WebViewClient() {
-            override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
+            override fun doUpdateVisitedHistory(
+                view: WebView?,
+                url: String?,
+                isReload: Boolean,
+            ) {
                 onBackPressedCallback.isEnabled = webView.canGoBack()
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageStarted(
+                view: WebView?,
+                url: String?,
+                favicon: Bitmap?,
+            ) {
                 binding.progressBar.progress = 0
                 binding.progressBar.visibility = View.VISIBLE
                 supportActionBar?.subtitle = url
             }
 
-            override fun onPageFinished(view: WebView?, url: String?) {
+            override fun onPageFinished(
+                view: WebView?,
+                url: String?,
+            ) {
                 binding.progressBar.visibility = View.INVISIBLE
             }
         }
@@ -122,7 +145,10 @@ class BrowserActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_FROM_CUSTOM_TABS = "EXTRA_FROM_CUSTOM_TABS"
-        fun startFromCustomTabs(context: Context, webView: WebView) {
+        fun startFromCustomTabs(
+            context: Context,
+            webView: WebView,
+        ) {
             WebViewHolder.setBrowserWebView(webView)
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webView.url))
             intent.setClass(context, BrowserActivity::class.java)

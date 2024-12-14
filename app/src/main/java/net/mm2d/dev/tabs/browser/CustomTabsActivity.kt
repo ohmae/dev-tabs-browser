@@ -49,7 +49,9 @@ class CustomTabsActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var binding: ActivityCustomTabsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+    ) {
         reader = CustomTabsIntentReader(intent)
         setUpSystemUi()
         super.onCreate(savedInstanceState)
@@ -74,7 +76,9 @@ class CustomTabsActivity : AppCompatActivity() {
         webView.isFocusableInTouchMode = true
     }
 
-    override fun onNewIntent(intent: Intent) {
+    override fun onNewIntent(
+        intent: Intent,
+    ) {
         super.onNewIntent(intent)
         setIntent(intent)
         intent.dataString?.let {
@@ -115,7 +119,9 @@ class CustomTabsActivity : AppCompatActivity() {
         window.navigationBarColor = colorSchemeParams.navigationBarColor
     }
 
-    private fun applyColorScheme(colorScheme: Int) {
+    private fun applyColorScheme(
+        colorScheme: Int,
+    ) {
         val nightMode: Int = when (colorScheme) {
             CustomTabsIntent.COLOR_SCHEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
             CustomTabsIntent.COLOR_SCHEME_LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
@@ -174,7 +180,10 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setForegroundColor(mainColorId: Int, subColorId: Int) {
+    private fun setForegroundColor(
+        mainColorId: Int,
+        subColorId: Int,
+    ) {
         val mainColor = ContextCompat.getColor(this, mainColorId)
         val subColor = ContextCompat.getColor(this, subColorId)
         binding.toolbar.setTitleTextColor(mainColor)
@@ -184,7 +193,9 @@ class CustomTabsActivity : AppCompatActivity() {
         tintedColor = mainColor
     }
 
-    private fun applyActionButtonParams(params: ButtonParams) {
+    private fun applyActionButtonParams(
+        params: ButtonParams,
+    ) {
         binding.actionButton.visibility = View.VISIBLE
         binding.actionButton.setImageBitmap(params.icon)
         if (params.shouldTint) {
@@ -211,7 +222,9 @@ class CustomTabsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun applyToolbarButtonParamsList(list: List<ButtonParams>) {
+    private fun applyToolbarButtonParamsList(
+        list: List<ButtonParams>,
+    ) {
         if (list.isEmpty()) {
             return
         }
@@ -242,23 +255,36 @@ class CustomTabsActivity : AppCompatActivity() {
             if (it.isNotEmpty()) supportActionBar?.title = it
         }
         webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+            override fun onProgressChanged(
+                view: WebView?,
+                newProgress: Int,
+            ) {
                 binding.progressBar.progress = newProgress
             }
 
-            override fun onReceivedTitle(view: WebView?, title: String?) {
+            override fun onReceivedTitle(
+                view: WebView?,
+                title: String?,
+            ) {
                 if (reader.shouldShowTitle) supportActionBar?.title = title
             }
         }
         webView.webViewClient = object : WebViewClientCompat() {
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageStarted(
+                view: WebView?,
+                url: String?,
+                favicon: Bitmap?,
+            ) {
                 binding.progressBar.progress = 0
                 binding.progressBar.visibility = View.VISIBLE
                 supportActionBar?.subtitle = url
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_STARTED)
             }
 
-            override fun onPageFinished(view: WebView?, url: String?) {
+            override fun onPageFinished(
+                view: WebView?,
+                url: String?,
+            ) {
                 binding.progressBar.visibility = View.INVISIBLE
                 connection.onNavigationEvent(CustomTabsCallback.NAVIGATION_FAILED)
             }
@@ -291,7 +317,9 @@ class CustomTabsActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(
+        menu: Menu,
+    ): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         menu.findItem(R.id.action_overflow).icon?.setTint(tintedColor)
         if (!reader.shouldShowShareMenuItem) {
@@ -308,12 +336,16 @@ class CustomTabsActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+    override fun onPrepareOptionsMenu(
+        menu: Menu,
+    ): Boolean {
         popupMenu.onPrepareOptionsMenu(menu, R.id.overflow)
         return super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(
+        item: MenuItem,
+    ): Boolean {
         val customMenuRange =
             CUSTOM_MENU_ID_START until CUSTOM_MENU_ID_START + reader.menuParamsList.size
         when (item.itemId) {
@@ -327,13 +359,18 @@ class CustomTabsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun onSelectCustomMenu(index: Int) {
+    private fun onSelectCustomMenu(
+        index: Int,
+    ) {
         runCatching {
             reader.menuParamsList[index].pendingIntent?.send(this, 0, null)
         }
     }
 
-    private fun sendPendingIntentOnClick(pendingIntent: PendingIntent, id: Int) {
+    private fun sendPendingIntentOnClick(
+        pendingIntent: PendingIntent,
+        id: Int,
+    ) {
         val addedIntent = Intent().also {
             it.putExtra(CustomTabsIntent.EXTRA_REMOTEVIEWS_CLICKED_ID, id)
             it.data = Uri.parse(webView.url)
@@ -343,7 +380,9 @@ class CustomTabsActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendPendingIntentWithUrl(pendingIntent: PendingIntent) {
+    private fun sendPendingIntentWithUrl(
+        pendingIntent: PendingIntent,
+    ) {
         val addedIntent = Intent().also {
             it.data = Uri.parse(webView.url)
         }

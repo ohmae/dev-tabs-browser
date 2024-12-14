@@ -58,7 +58,9 @@ import net.mm2d.dev.tabs.browser.extension.getStringSafely
 import net.mm2d.dev.tabs.browser.extension.getStringSafelyNonNull
 import net.mm2d.dev.tabs.browser.extension.isNightMode
 
-class CustomTabsIntentReader(intent: Intent) {
+class CustomTabsIntentReader(
+    intent: Intent,
+) {
     private val extras: Bundle = intent.extras ?: Bundle.EMPTY
     val shouldShowTitle: Boolean =
         extras.getIntSafely(EXTRA_TITLE_VISIBILITY_STATE, NO_TITLE) == SHOW_PAGE_TITLE
@@ -125,8 +127,9 @@ class CustomTabsIntentReader(intent: Intent) {
         )
     }
 
-    fun getColorSchemeParams(activity: Activity): ColorSchemeParams =
-        if (activity.isNightMode()) darkColorSchemeParams else lightColorSchemeParams
+    fun getColorSchemeParams(
+        activity: Activity,
+    ): ColorSchemeParams = if (activity.isNightMode()) darkColorSchemeParams else lightColorSchemeParams
 
     class MenuParams(
         val title: String,
@@ -158,7 +161,10 @@ class CustomTabsIntentReader(intent: Intent) {
                 DEFAULT_NAVIGATION_BAR_COLOR,
             )
 
-            fun create(bundle: Bundle, default: ColorSchemeParams): ColorSchemeParams {
+            fun create(
+                bundle: Bundle,
+                default: ColorSchemeParams,
+            ): ColorSchemeParams {
                 val toolbarColor = bundle.getIntSafely(EXTRA_TOOLBAR_COLOR, default.toolbarColor)
                 return ColorSchemeParams(
                     toolbarColor,
@@ -179,17 +185,23 @@ class CustomTabsIntentReader(intent: Intent) {
         private const val DEFAULT_TOOLBAR_COLOR_DARK = Color.BLACK
         private const val DEFAULT_NAVIGATION_BAR_COLOR = Color.BLACK
 
-        private fun makeMenuParamsList(extras: Bundle): List<MenuParams> =
+        private fun makeMenuParamsList(
+            extras: Bundle,
+        ): List<MenuParams> =
             extras.getParcelableArrayListSafely<Bundle>(EXTRA_MENU_ITEMS)
                 ?.mapNotNull { makeMenuParams(it) } ?: emptyList()
 
-        private fun makeMenuParams(bundle: Bundle): MenuParams? {
+        private fun makeMenuParams(
+            bundle: Bundle,
+        ): MenuParams? {
             val title = bundle.getStringSafelyNonNull(KEY_MENU_ITEM_TITLE)
             if (title.isEmpty()) return null
             return MenuParams(title, bundle.getParcelableSafely(KEY_PENDING_INTENT))
         }
 
-        private fun makeActionButtonParams(extras: Bundle): ButtonParams? =
+        private fun makeActionButtonParams(
+            extras: Bundle,
+        ): ButtonParams? =
             extras.getBundleSafely(EXTRA_ACTION_BUTTON_BUNDLE)?.let {
                 val id = it.getIntSafely(KEY_ID, TOOLBAR_ACTION_BUTTON_ID)
                 val shouldTint = extras.getBooleanSafely(EXTRA_TINT_ACTION_BUTTON, false)
@@ -211,7 +223,11 @@ class CustomTabsIntentReader(intent: Intent) {
                 } ?: emptyList()
         }
 
-        private fun makeButtonParams(id: Int, shouldTint: Boolean, bundle: Bundle): ButtonParams? {
+        private fun makeButtonParams(
+            id: Int,
+            shouldTint: Boolean,
+            bundle: Bundle,
+        ): ButtonParams? {
             val icon: Bitmap = bundle.getParcelableSafely(KEY_ICON) ?: return null
             return ButtonParams(
                 id,

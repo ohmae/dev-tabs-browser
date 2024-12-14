@@ -13,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 
 class IntentDispatcher : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(
+        savedInstanceState: Bundle?,
+    ) {
         super.onCreate(savedInstanceState)
         dispatch()
         finish()
@@ -32,7 +34,9 @@ class IntentDispatcher : AppCompatActivity() {
         }
     }
 
-    private fun isCustomTabIntent(intent: Intent): Boolean {
+    private fun isCustomTabIntent(
+        intent: Intent,
+    ): Boolean {
         if (CustomTabsIntent.shouldAlwaysUseBrowserUI(intent)) return false
         if (!intent.hasExtra(CustomTabsIntent.EXTRA_SESSION)) return false
         return intent.data != null

@@ -21,7 +21,11 @@ import androidx.core.view.forEach
 import java.lang.ref.WeakReference
 import kotlin.math.roundToInt
 
-class CustomOptionsMenuHelper(activity: Activity, toolbarId: Int, private val overflowIconId: Int) {
+class CustomOptionsMenuHelper(
+    activity: Activity,
+    toolbarId: Int,
+    private val overflowIconId: Int,
+) {
     private val activityReference = WeakReference(activity)
     private val toolbar = activity.findViewById<Toolbar>(toolbarId)
     private val adapter = ArrayAdapter<MenuItem>(activity, android.R.layout.simple_list_item_1)
@@ -40,7 +44,10 @@ class CustomOptionsMenuHelper(activity: Activity, toolbarId: Int, private val ov
     }
     private var invalidateBySelect = false
 
-    fun onPrepareOptionsMenu(menu: Menu, overflowGroupId: Int): Boolean {
+    fun onPrepareOptionsMenu(
+        menu: Menu,
+        overflowGroupId: Int,
+    ): Boolean {
         if (!invalidateBySelect) {
             return true
         }

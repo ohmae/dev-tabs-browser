@@ -11,16 +11,22 @@ import android.os.Bundle
 import android.os.SystemClock
 import androidx.browser.customtabs.CustomTabsCallback
 
-class CustomTabsConnection(private val callback: CustomTabsCallback?) {
+class CustomTabsConnection(
+    private val callback: CustomTabsCallback?,
+) {
     private var hidden: Boolean = false
-    fun onNavigationEvent(event: Int) {
+    fun onNavigationEvent(
+        event: Int,
+    ) {
         callback?.onNavigationEvent(
             event,
             Bundle().also { it.putLong("timestampUptimeMillis", SystemClock.uptimeMillis()) },
         )
     }
 
-    fun onBottomBarScrollStateChanged(hidden: Boolean) {
+    fun onBottomBarScrollStateChanged(
+        hidden: Boolean,
+    ) {
         if (this.hidden == hidden) return
         this.hidden = hidden
         callback?.extraCallback(
