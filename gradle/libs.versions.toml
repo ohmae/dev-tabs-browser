@@ -3,7 +3,7 @@ androidGradlePlugin = "8.9.1"
 kotlin = "2.1.20"
 gradleVersionsPlugin = "0.52.0"
 
-androidxCore = "1.15.0"
+androidxCore = "1.16.0"
 androidxAppCompat = "1.7.0"
 androidxBrowser = "1.8.0"
 androidxConstraintLayout = "2.2.1"
@@ -13,7 +13,7 @@ androidxRecyclerView = "1.4.0"
 
 # test
 junit = "4.13.2"
-mockk = "1.13.17"
+mockk = "1.14.0"
 truth = "1.4.4"
 robolectric = "4.14.1"
 androidxJunit = "1.2.1"
