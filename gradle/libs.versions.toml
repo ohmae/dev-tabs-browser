@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "8.9.2"
+androidGradlePlugin = "8.10.0"
 kotlin = "2.1.20"
 gradleVersionsPlugin = "0.52.0"
 
@@ -13,7 +13,7 @@ androidxRecyclerView = "1.4.0"
 
 # test
 junit = "4.13.2"
-mockk = "1.14.0"
+mockk = "1.14.2"
 truth = "1.4.4"
 robolectric = "4.14.1"
 androidxJunit = "1.2.1"
