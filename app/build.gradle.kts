@@ -8,13 +8,13 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     namespace = "net.mm2d.dev.tabs.browser"
     defaultConfig {
         applicationId = "net.mm2d.dev.tabs.browser"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
     }
@@ -29,14 +29,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlin {
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_1_8
+            jvmTarget = JvmTarget.JVM_11
         }
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
     buildFeatures {
         buildConfig = true
@@ -45,7 +45,6 @@ android {
     lint {
         abortOnError = true
     }
-    @Suppress("UnstableApiUsage")
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
@@ -63,7 +62,6 @@ dependencies {
     implementation(libs.material)
 
     debugImplementation(libs.leakcanary)
-    debugImplementation(libs.bundles.flipper)
 
     testImplementation(libs.junit)
     testImplementation(libs.truth)
