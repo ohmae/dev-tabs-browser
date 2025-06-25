@@ -1,27 +1,27 @@
 [versions]
-androidGradlePlugin = "8.10.0"
-kotlin = "2.1.21"
+androidGradlePlugin = "8.11.0"
+kotlin = "2.2.0"
 gradleVersionsPlugin = "0.52.0"
 
 androidxCore = "1.16.0"
-androidxAppCompat = "1.7.0"
+androidxAppCompat = "1.7.1"
 androidxBrowser = "1.8.0"
 androidxConstraintLayout = "2.2.1"
-androidxWebkit = "1.13.0"
+androidxWebkit = "1.14.0"
 material = "1.12.0"
 androidxRecyclerView = "1.4.0"
 
 # test
 junit = "4.13.2"
-mockk = "1.14.2"
+mockk = "1.14.4"
 truth = "1.4.4"
-robolectric = "4.14.1"
+robolectric = "4.15.1"
 androidxJunit = "1.2.1"
 
 # debug
 leakcanary = "2.14"
 
-ktlint = "1.5.0"
+ktlint = "1.6.0"
 
 # for release
 
