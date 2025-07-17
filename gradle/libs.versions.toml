@@ -13,7 +13,7 @@ androidxRecyclerView = "1.4.0"
 
 # test
 junit = "4.13.2"
-mockk = "1.14.4"
+mockk = "1.14.5"
 truth = "1.4.4"
 robolectric = "4.15.1"
 androidxJunit = "1.2.1"
@@ -21,7 +21,7 @@ androidxJunit = "1.2.1"
 # debug
 leakcanary = "2.14"
 
-ktlint = "1.6.0"
+ktlint = "1.7.0"
 
 # for release
 
