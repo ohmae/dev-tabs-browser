@@ -21,7 +21,10 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.webkit.WebViewClientCompat
 import net.mm2d.dev.tabs.browser.databinding.ActivityBrowserBinding
 
@@ -39,6 +42,7 @@ class BrowserActivity : AppCompatActivity() {
         savedInstanceState: Bundle?,
     ) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityBrowserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = ""
@@ -57,6 +61,11 @@ class BrowserActivity : AppCompatActivity() {
         }
         webView.isFocusableInTouchMode = true
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 
     override fun onSaveInstanceState(

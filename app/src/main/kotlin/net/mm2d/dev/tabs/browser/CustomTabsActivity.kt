@@ -27,6 +27,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
@@ -34,6 +35,8 @@ import androidx.browser.customtabs.CustomTabsCallback
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.webkit.WebViewClientCompat
 import com.google.android.material.appbar.AppBarLayout
 import net.mm2d.dev.tabs.browser.CustomTabsIntentReader.ButtonParams
@@ -55,6 +58,7 @@ class CustomTabsActivity : AppCompatActivity() {
         reader = CustomTabsIntentReader(intent)
         setUpSystemUi()
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityCustomTabsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
@@ -74,6 +78,11 @@ class CustomTabsActivity : AppCompatActivity() {
             webView.loadUrl(url)
         }
         webView.isFocusableInTouchMode = true
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 
     override fun onNewIntent(
