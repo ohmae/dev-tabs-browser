@@ -61,8 +61,6 @@ dependencies {
     implementation(libs.androidxWebkit)
     implementation(libs.material)
 
-    debugImplementation(libs.leakcanary)
-
     testImplementation(libs.junit)
     testImplementation(libs.truth)
     testImplementation(libs.mockk)

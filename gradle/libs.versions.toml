@@ -1,6 +1,6 @@
 [versions]
 androidGradlePlugin = "8.13.0"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 gradleVersionsPlugin = "0.52.0"
 
 androidxCore = "1.17.0"
@@ -14,12 +14,9 @@ androidxRecyclerView = "1.4.0"
 # test
 junit = "4.13.2"
 mockk = "1.14.5"
-truth = "1.4.4"
+truth = "1.4.5"
 robolectric = "4.16"
 androidxJunit = "1.3.0"
-
-# debug
-leakcanary = "2.14"
 
 ktlint = "1.7.1"
 
@@ -43,9 +40,6 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 androidxJunit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
-
-# debug
-leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 
 ktlint = { group = "com.pinterest.ktlint", name = "ktlint-cli", version.ref = "ktlint" }
 
