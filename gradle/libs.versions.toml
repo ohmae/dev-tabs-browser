@@ -1,13 +1,13 @@
 [versions]
 androidGradlePlugin = "8.13.2"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 gradleVersionsPlugin = "0.53.0"
 
 androidxCore = "1.17.0"
 androidxAppCompat = "1.7.1"
 androidxBrowser = "1.9.0"
 androidxConstraintLayout = "2.2.1"
-androidxWebkit = "1.14.0"
+androidxWebkit = "1.15.0"
 material = "1.13.0"
 androidxRecyclerView = "1.4.0"
 
