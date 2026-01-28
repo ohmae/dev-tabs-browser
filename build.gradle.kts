@@ -1,7 +1,14 @@
+import nl.littlerobots.vcu.plugin.resolver.VersionSelectors
+import nl.littlerobots.vcu.plugin.versionCatalogUpdate
+
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
-    alias(libs.plugins.gradleVersions) apply false
+    alias(libs.plugins.versionCatalogUpdate)
+}
+
+versionCatalogUpdate {
+    versionSelector(VersionSelectors.STABLE)
 }
 
 val ktlint: Configuration by configurations.creating
