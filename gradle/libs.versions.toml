@@ -29,7 +29,7 @@ kotlinGradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plu
 kotlinStdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlinReflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 
-androidxCore = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidxCore = { group = "androidx.core", name = "core", version.ref = "androidxCore" }
 androidxAppCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidxBrowser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
 androidxConstraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintLayout" }
