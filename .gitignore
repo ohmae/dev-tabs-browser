@@ -32,6 +32,7 @@ local.properties
 /.idea/gradle.xml
 /.idea/jarRepositories.xml
 /.idea/kotlinc.xml
+/.idea/markdown.xml
 /.idea/migrations.xml
 /.idea/misc.xml
 /.idea/other.xml
