@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "9.2.0"
+androidGradlePlugin = "9.2.1"
 kotlin = "2.3.21"
 versionCatalogUpdate = "1.1.0"
 
@@ -7,7 +7,7 @@ androidxCore = "1.18.0"
 androidxAppCompat = "1.7.1"
 androidxBrowser = "1.10.0"
 androidxConstraintLayout = "2.2.1"
-androidxWebkit = "1.15.0"
+androidxWebkit = "1.16.0"
 material = "1.13.0"
 androidxRecyclerView = "1.4.0"
 
