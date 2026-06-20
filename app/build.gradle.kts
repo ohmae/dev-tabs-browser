@@ -5,7 +5,9 @@ plugins {
 }
 
 android {
-    compileSdk = 36
+    compileSdk {
+        version = release(37)
+    }
 
     namespace = "net.mm2d.dev.tabs.browser"
     defaultConfig {
